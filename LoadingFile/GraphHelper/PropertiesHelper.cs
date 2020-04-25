@@ -45,7 +45,7 @@ namespace GraphHelper
                 if (arr[i].Item2 != arr[i - 1].Item2)  //попалась новая вершина
                     res.Add(arr[i].Item2);
             }
-            return res; 
+            return res;
         }
 
         /// <summary>
@@ -58,7 +58,7 @@ namespace GraphHelper
             List<string> vert2 = PropertiesHelper.Vertexes2(arr);
             foreach (string s in vert1)
             {
-                if (vert2.IndexOf(s) == -1 ) //если vert2 не содержит очередную строку
+                if (vert2.IndexOf(s) == -1) //если vert2 не содержит очередную строку
                 {
                     vert2.Add(s); //если уникальный, то добавляем
                 }
@@ -93,7 +93,7 @@ namespace GraphHelper
         {
             List<Tuple<string, int>> val = Valences(arr);
             double sum = 0;
-            foreach(var item in val)
+            foreach (var item in val)
             {
                 sum += item.Item2;
             }
@@ -105,6 +105,12 @@ namespace GraphHelper
             vals.Sort((x, y) => x.Item2.CompareTo(y.Item2));
             return vals[vals.Count - 1].Item2;
         }
+        public static int MinValence(List<Tuple<string, string, string, int>> arr)
+        {
+            List<Tuple<string, int>> vals = Valences(arr);
+            vals.Sort((x, y) => x.Item2.CompareTo(y.Item2));
+            return vals[0].Item2;
+        }
 
         #endregion
 
@@ -112,14 +118,14 @@ namespace GraphHelper
         public static double AverageWeight(List<Tuple<string, string, string, int>> arr)
         {
             double sum = 0;
-            foreach(var item in arr)
+            foreach (var item in arr)
             {
                 sum += item.Item4;
             }
             return sum / arr.Count;
         }
-        public static int MaxWeight(List<Tuple<string, string, string, int>> arr, 
-            out string v1, out string v2) 
+        public static int MaxWeight(List<Tuple<string, string, string, int>> arr,
+            out string v1, out string v2)
         {
             int max = 0;
             v1 = "";
@@ -140,7 +146,7 @@ namespace GraphHelper
             int min = arr[0].Item4;
             foreach (var item in arr)
             {
-                if (item.Item4 <min) min = item.Item4;
+                if (item.Item4 < min) min = item.Item4;
             }
             return min;
         }
@@ -154,11 +160,11 @@ namespace GraphHelper
         public static bool IsTriangle(string v1, string v2, string v3, List<Tuple<string, string, string, int>> arr)
         {
             bool b1 = false, b2 = false, b3 = false;
-            if (arr.FindIndex(x => 
-            (x.Item1 == v1 && x.Item2 == v2)|| (x.Item2 == v1 && x.Item1 == v2)) != -1) //есть такое ребро
+            if (arr.FindIndex(x =>
+            (x.Item1 == v1 && x.Item2 == v2) || (x.Item2 == v1 && x.Item1 == v2)) != -1) //есть такое ребро
                 b1 = true;
 
-            if (arr.FindIndex(x => 
+            if (arr.FindIndex(x =>
             (x.Item1 == v1 && x.Item2 == v3) || (x.Item1 == v3 && x.Item2 == v1)) != -1) //есть такое ребро
                 b2 = true;
 
@@ -215,18 +221,18 @@ namespace GraphHelper
         {
             return (arr.FindIndex(x =>
              (x.Item1 == v1 && x.Item2 == v2) || (x.Item1 == v2 && x.Item2 == v1)) != -1); //есть такое ребро
-                
+
         }
 
         /// <summary>
         /// Список вершин, соседних с данной
         /// </summary>
-        public static List<string> 
+        public static List<string>
             ListOfNeighbours(string v, List<string> vertexes, List<Tuple<string, string, string, int>> arr)
         {
             List<string> res = new List<string>();
 
-            foreach(var ver in vertexes)
+            foreach (var ver in vertexes)
             {
                 if (IsNeighbour(v, ver, arr)) res.Add(ver);
             }
@@ -251,7 +257,7 @@ namespace GraphHelper
             //}
 
             return ListOfNeighbours(v, vertexes, arr).Count;
-           // return res;
+            // return res;
         }
 
 
@@ -263,9 +269,9 @@ namespace GraphHelper
             List<string> vert = Vertexes(arr);
             Console.WriteLine(vert.Count + " - вершин");
             int amount = 0;
-            for(int i = 0; i < vert.Count; i++)
-                for(int j = i; j < vert.Count;j++)
-                    for(int k = j; k < vert.Count; k++)
+            for (int i = 0; i < vert.Count; i++)
+                for (int j = i; j < vert.Count; j++)
+                    for (int k = j; k < vert.Count; k++)
                     {
                         if (IsTriangle(vert[i], vert[j], vert[k], arr)) amount++;
                     }
@@ -277,12 +283,12 @@ namespace GraphHelper
             int amount = 0;
             //получаем список вершин
             List<string> vert = Vertexes(arr);
-            for(int i = 0; i < arr.Count; i++)
+            for (int i = 0; i < arr.Count; i++)
             {
                 string u = arr[i].Item1; //первая вершина
                 string v = arr[i].Item2; //вторая вершина
                 List<string> neighs = ListOfNeighbours(u, vert, arr); //получаем список соседей
-                foreach(var neighbour in neighs)
+                foreach (var neighbour in neighs)
                 {
                     if (IsNeighbour(v, neighbour, arr)) amount++;
 
@@ -304,7 +310,7 @@ namespace GraphHelper
                 string v = arr[i].Item2; //вторая вершина
 
                 //если первая вершина имеет валентность меньше
-                bool first = 
+                bool first =
                     valences.Find(x => x.Item1 == u).Item2 < valences.Find(x => x.Item1 == v).Item2;
 
                 if (!first)//меняем местами
@@ -325,29 +331,53 @@ namespace GraphHelper
 
         public static double CoeffClustering(List<Tuple<string, string, string, int>> arr)
         {
-            int triangles = AmountOfTriangleVE(arr);
+            int triangles = AmountOfTriangleESqrtE(arr);
             List<string> vert = Vertexes(arr);
             int n = vert.Count;
             int all_triangles = n * (n - 1) * (n - 2) / 6;
-            return (0.1*triangles) / all_triangles;
+            return (0.1 * triangles) / all_triangles;
         }
         #endregion
 
+
+        #region Loops
         public static bool IsLoop
             (string v, List<string> vert, List<Tuple<string, string, string, int>> arr)
         {
-            return (arr.Find(x=> x.Item1 == v && x.Item2 == v) != null);
+            return (arr.Find(x => x.Item1 == v && x.Item2 == v) != null);
         }
 
-        public static int AmountOfLoop(List<Tuple<string, string, string, int>> arr)
+        public static int AmountOfLoops(List<Tuple<string, string, string, int>> arr)
         {
             List<string> vert = Vertexes(arr);
-            int res = 0; 
-            foreach(string v in vert)
+            int res = 0;
+            foreach (string v in vert)
             {
                 if (IsLoop(v, vert, arr)) res++;
             }
             return res;
         }
+        #endregion
+
+
+        #region DoubleEdges
+        public static bool IsDoubleEdge
+            (Tuple<string, string, string, int> t, List<Tuple<string, string, string, int>> arr)
+        {
+            return (arr.IndexOf(t) != arr.LastIndexOf(t));
+        }
+
+        public static int AmountOfDoubleEdges(List<Tuple<string, string, string, int>> arr)
+        {
+
+            int res = 0;
+            foreach (var t in arr)
+            {
+                if (IsDoubleEdge(t, arr)) res++;
+            }
+            return res;
+        }
+        #endregion
     }
 }
+

@@ -17,10 +17,15 @@ namespace VisualGraph
         {
             InitializeComponent();
         }
-
+        string[] strings;
+        List<Tuple<string, string, string, int>> lst;
         private void Form1_Load(object sender, EventArgs e)
         {
-            
+            //Полный путь.
+            const string path =
+                "C:/Users/Пользователь/Desktop/CourseWork/table/traced-roi-connections.csv";
+            strings = File.ReadAllLines(path); //считываем по строкам
+            lst = GraphHelper.GeneralPropertiesHelper.GetTuples(strings);
         }
 
         private void btnDraw_Click(object sender, EventArgs e)
@@ -31,20 +36,14 @@ namespace VisualGraph
             Pen pen = new Pen(Color.FromArgb(0, 100, 100));
 
 
-
-            //Полный путь.
-            const string path =
-                "C:/Users/Пользователь/Desktop/CourseWork/table/traced-roi-connections.csv";
-            string[] strings = File.ReadAllLines(path); //считываем по строкам
-
-            List<Tuple<string, string, string, int>> lst =
-                GraphHelper.GeneralPropertiesHelper.GetTuples(strings);
             List<Tuple<string, string, string, int>> ME =
                 GraphHelper.GroupHelper.FindRegions(lst,
-                new string[] { "ME(L)", "ME(R)" });
+                new string[] { "LO(L)", "LO(R)" });
             //рисуем
-            GraphHelper.VisualizationHelper.DrawGraphRandom
-                (ME, pb, pen, Color.FromArgb(50,50,50), Color.FromArgb(255,90,60));
+            GraphHelper.VisualizationHelper.DrawSmallGraphRandom
+                (ME, pb, pen, Color.FromArgb(50, 50, 50), Color.FromArgb(255, 90, 60));
+            //GraphHelper.VisualizationHelper.DrawBigGraphRandom
+            //    (ME, pb, pen);
         }
     }
 }

@@ -35,11 +35,11 @@
             // 
             // btnDraw
             // 
-            this.btnDraw.Location = new System.Drawing.Point(589, 12);
+            this.btnDraw.Location = new System.Drawing.Point(713, 423);
             this.btnDraw.Name = "btnDraw";
             this.btnDraw.Size = new System.Drawing.Size(75, 23);
             this.btnDraw.TabIndex = 0;
-            this.btnDraw.Text = "DRAW";
+            this.btnDraw.Text = "Calculate";
             this.btnDraw.UseVisualStyleBackColor = true;
             this.btnDraw.Click += new System.EventHandler(this.btnDraw_Click);
             // 

@@ -107,7 +107,7 @@ namespace LoadingFile
             //int amount = PropertiesHelper.AmountOfTriangleVE(optic_lobe);
             //Console.WriteLine(amount + " - Количество треугольников");
 
-            int a = PropertiesHelper.AmountOfLoop(ME);
+            int a = PropertiesHelper.AmountOfLoops(ME);
             Console.WriteLine(a + "  количество петель");
             Console.WriteLine(PropertiesHelper.MaxValence(ME) +"   макс валентность");
             List<Tuple<string, int>> vals = PropertiesHelper.Valences(ME);

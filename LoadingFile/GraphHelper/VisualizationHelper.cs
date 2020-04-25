@@ -11,7 +11,7 @@ namespace GraphHelper
     public static class VisualizationHelper
     {
         static Random rnd = new Random();
-        public static void DrawGraphRandom
+        public static void DrawSmallGraphRandom
             (List<Tuple<string, string, string, int>> arr,
             PictureBox pb, Pen pen, Color start, Color end)
         {
@@ -57,6 +57,65 @@ namespace GraphHelper
                 Color c2 = t2.Item3;
                 DrawVertex(p1, gr, c1, 10);
                 DrawVertex(p2, gr, c2, 10);
+            }
+
+
+        }
+
+
+
+
+        public static void DrawBigGraphRandom
+            (List<Tuple<string, string, string, int>> arr,
+            PictureBox pb, Pen pen)
+        {
+            Graphics gr = Graphics.FromImage(pb.Image);
+            List<string> vertexes = PropertiesHelper.Vertexes(arr); //список вершин
+
+
+            List<Tuple<string, Point, bool>> points = new List<Tuple<string, Point, bool>>();
+
+
+            //распределяем точки
+            for (int i = 0; i < vertexes.Count; i++)
+            {
+                points.Add(new Tuple<string, Point, bool>
+                    (vertexes[i],
+                    new Point(rnd.Next(pb.Width), rnd.Next(pb.Height)),
+                    false)
+                    ); ;
+            }
+
+
+            //рисуем все ребра
+            for (int i = 0; i < arr.Count; i++)
+            {
+                //находим первую точку
+                Tuple<string, Point, bool> t1 =
+                points.Find(x => x.Item1 == arr[i].Item1);
+                //находим вторую точку
+                Tuple<string, Point, bool> t2 =
+                points.Find(x => x.Item1 == arr[i].Item2);
+
+                Point p1 = t1.Item2;
+                Point p2 = t2.Item2;
+                gr.DrawLine(pen, p1, p2);
+                bool b1 = t1.Item3;
+                bool b2 = t2.Item3;
+
+                int i1 = points.IndexOf(t1);
+                int i2 = points.IndexOf(t2);
+
+                if (!b1)
+                {
+                    DrawVertex(p1, gr, pen.Color, 4);
+                    points[i1] = new Tuple<string, Point, bool>(t1.Item1, t1.Item2, true);
+                }
+                if (!b2)
+                {
+                    DrawVertex(p2, gr, pen.Color, 4);
+                    points[i2] = new Tuple<string, Point, bool>(t2.Item1, t2.Item2, true);
+                }
             }
 
 
