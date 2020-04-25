@@ -29,14 +29,34 @@ namespace GraphHelper
             return res;
         }
 
-        /// <summary>
-        /// Считает факториал
-        /// </summary>
-        public static int Fact(int n)
+        public static List<string> GetRegions(List<Tuple<string, string, string, int>> arr)
         {
-            if (n == 1) return 1;
-            return Fact(n - 1) * n;
+            List<string> res = new List<string>();
+            for (int i = 0; i < arr.Count; i++)
+            {
+                string reg = arr[i].Item3.Split('(')[0]; //регион
+                bool isreg = false;
+                foreach (var t in res)
+                {
+                    if (t == reg) isreg = true;
+                }
+                //если false, то региона не нашлось, добавим регион
+                if (!isreg) res.Add(reg);
+            }
+            return res;
         }
-        
+
+        public static List<Tuple<string, int>> GetRegions1(List<string> regs, List<Tuple<string, string, string, int>> arr)
+        {
+            List<Tuple<string, int>> res = new List<Tuple<string, int>>();
+            foreach(string s in regs)
+            {
+                List<Tuple<string, string, string, int>> list = 
+                    GroupHelper.FindRegions(arr, s);
+                if (list.Count != 0) res.Add(new Tuple<string, int>(s, list.Count)); 
+            }
+            return res;
+        }
+
     }
 }

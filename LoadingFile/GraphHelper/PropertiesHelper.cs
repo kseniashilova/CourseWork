@@ -112,6 +112,14 @@ namespace GraphHelper
             return vals[0].Item2;
         }
 
+        public static int AmountOfVal1(List<Tuple<string, string, string, int>> arr)
+        {
+            List<Tuple<string, int>> vals = Valences(arr);
+            int res = 0;
+            foreach (var v in vals) if (v.Item2 == 1) res++;
+            return res;
+        }
+
         #endregion
 
         #region Weight
@@ -124,19 +132,14 @@ namespace GraphHelper
             }
             return sum / arr.Count;
         }
-        public static int MaxWeight(List<Tuple<string, string, string, int>> arr,
-            out string v1, out string v2)
+        public static int MaxWeight(List<Tuple<string, string, string, int>> arr)
         {
             int max = 0;
-            v1 = "";
-            v2 = "";
             foreach (var item in arr)
             {
                 if (item.Item4 > max)
                 {
                     max = item.Item4;
-                    v1 = item.Item1;
-                    v2 = item.Item2;
                 }
             }
             return max;

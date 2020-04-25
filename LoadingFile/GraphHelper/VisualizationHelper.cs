@@ -13,7 +13,7 @@ namespace GraphHelper
         static Random rnd = new Random();
         public static void DrawSmallGraphRandom
             (List<Tuple<string, string, string, int>> arr,
-            PictureBox pb, Pen pen, Color start, Color end)
+            PictureBox pb, Pen pen)
         {
             Graphics gr = Graphics.FromImage(pb.Image);
             List<string>vertexes = PropertiesHelper.Vertexes(arr); //список вершин

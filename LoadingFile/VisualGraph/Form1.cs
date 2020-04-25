@@ -19,6 +19,7 @@ namespace VisualGraph
         }
         string[] strings;
         List<Tuple<string, string, string, int>> lst;
+        List<string> regs;
         private void Form1_Load(object sender, EventArgs e)
         {
             //Полный путь.
@@ -26,6 +27,9 @@ namespace VisualGraph
                 "C:/Users/Пользователь/Desktop/CourseWork/table/traced-roi-connections.csv";
             strings = File.ReadAllLines(path); //считываем по строкам
             lst = GraphHelper.GeneralPropertiesHelper.GetTuples(strings);
+
+            regs = GraphHelper.GeneralPropertiesHelper.GetRegions(lst);
+            regs = GraphHelper.GroupHelper.SortRegionsBySize(regs, lst);
         }
 
         private void btnDraw_Click(object sender, EventArgs e)
@@ -36,14 +40,88 @@ namespace VisualGraph
             Pen pen = new Pen(Color.FromArgb(0, 100, 100));
 
 
-            List<Tuple<string, string, string, int>> ME =
-                GraphHelper.GroupHelper.FindRegions(lst,
-                new string[] { "LO(L)", "LO(R)" });
+
             //рисуем
+            if(currentList.Count<1000)
             GraphHelper.VisualizationHelper.DrawSmallGraphRandom
-                (ME, pb, pen, Color.FromArgb(50, 50, 50), Color.FromArgb(255, 90, 60));
-            //GraphHelper.VisualizationHelper.DrawBigGraphRandom
-            //    (ME, pb, pen);
+                (currentList, pb, pen);
+            else
+                GraphHelper.VisualizationHelper.DrawBigGraphRandom
+                (currentList, pb, pen);
+
+        }
+
+        List<Tuple<string, string, string, int>> currentList;
+        private void btnMe_Click(object sender, EventArgs e)
+        {
+            currentList = GraphHelper.GroupHelper.FindRegions(lst,
+                new string[] { "ME(L)", "ME(R)" });
+        }
+
+        private void btnLO_Click(object sender, EventArgs e)
+        {
+            currentList = GraphHelper.GroupHelper.FindRegions(lst,
+                new string[] { "LO(L)", "LO(R)" });
+        }
+
+        private void btnLOP_Click(object sender, EventArgs e)
+        {
+            currentList = GraphHelper.GroupHelper.FindRegions(lst,
+                new string[] { "LOP(L)", "LOP(R)" });
+        }
+
+        private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+//Количество петель
+//Количество двойных ребер
+//Коэффициент кластеризации
+            if ((string)comboBox1.SelectedItem == "Количество вершин")
+                labelOut.Text = 
+                    GraphHelper.PropertiesHelper.Vertexes(currentList).Count.ToString();
+
+            if ((string)comboBox1.SelectedItem == "Количество рёбер")
+                labelOut.Text =
+                    currentList.Count.ToString();
+
+            if ((string)comboBox1.SelectedItem == "Средняя валентность")
+                labelOut.Text =
+                    GraphHelper.PropertiesHelper.AverageValences(currentList).ToString();
+
+            if ((string)comboBox1.SelectedItem == "Максимальная валентность")
+                labelOut.Text =
+                    GraphHelper.PropertiesHelper.MaxValence(currentList).ToString();
+
+            if ((string)comboBox1.SelectedItem == "Минимальная валентность")
+                labelOut.Text =
+                    GraphHelper.PropertiesHelper.MinValence(currentList).ToString();
+
+            if ((string)comboBox1.SelectedItem == "Количество вершин валентности 1")
+                labelOut.Text =
+                    GraphHelper.PropertiesHelper.AmountOfVal1(currentList).ToString();
+
+            if ((string)comboBox1.SelectedItem == "Средний вес рёбер")
+                labelOut.Text =
+                    GraphHelper.PropertiesHelper.AverageWeight(currentList).ToString();
+
+            if ((string)comboBox1.SelectedItem == "Максимальный вес рёбер")
+                labelOut.Text =
+                    GraphHelper.PropertiesHelper.MaxWeight(currentList).ToString();
+
+            if ((string)comboBox1.SelectedItem == "Минимальный вес рёбер")
+                labelOut.Text =
+                    GraphHelper.PropertiesHelper.MinWeight(currentList).ToString();
+
+            if ((string)comboBox1.SelectedItem == "Количество петель")
+                labelOut.Text =
+                    GraphHelper.PropertiesHelper.AmountOfLoops(currentList).ToString();
+
+            if ((string)comboBox1.SelectedItem == "Количество двойных ребер")
+                labelOut.Text =
+                    GraphHelper.PropertiesHelper.AmountOfDoubleEdges(currentList).ToString();
+
+            if ((string)comboBox1.SelectedItem == "Коэффициент кластеризации")
+                labelOut.Text =
+                    GraphHelper.PropertiesHelper.CoeffClustering(currentList).ToString();
         }
     }
 }

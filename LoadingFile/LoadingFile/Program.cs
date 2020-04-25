@@ -95,9 +95,7 @@ namespace LoadingFile
 
 
 
-            List<Tuple<string, string, string, int>> ME =
-                GroupHelper.FindRegions(lst,
-                new string[] { "ME(L)", "ME(R)" });
+
 
             //Console.WriteLine(optic_lobe.Count + " - количество ребер");
 
@@ -107,11 +105,14 @@ namespace LoadingFile
             //int amount = PropertiesHelper.AmountOfTriangleVE(optic_lobe);
             //Console.WriteLine(amount + " - Количество треугольников");
 
-            int a = PropertiesHelper.AmountOfLoops(ME);
-            Console.WriteLine(a + "  количество петель");
-            Console.WriteLine(PropertiesHelper.MaxValence(ME) +"   макс валентность");
-            List<Tuple<string, int>> vals = PropertiesHelper.Valences(ME);
-            foreach (var val in vals) Console.WriteLine(val.Item2);
+
+            //regs.ForEach(x => Console.WriteLine(x));
+
+            List<string>regs =GeneralPropertiesHelper.GetRegions(lst);
+            List<string> regs1 = GroupHelper.SortRegionsBySize(regs, lst);
+            List<Tuple<string, int>> regs2 = GeneralPropertiesHelper.GetRegions1(regs, lst);
+            regs2.ForEach(x => Console.WriteLine($"{x.Item1}    {x.Item2}"));
+            
         }
     }
 }
