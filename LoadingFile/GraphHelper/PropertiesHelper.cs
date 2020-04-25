@@ -58,7 +58,7 @@ namespace GraphHelper
             List<string> vert2 = PropertiesHelper.Vertexes2(arr);
             foreach (string s in vert1)
             {
-                if (!vert2.Contains(s)) //если vert2 не содержит очередную строку
+                if (vert2.IndexOf(s) == -1 ) //если vert2 не содержит очередную строку
                 {
                     vert2.Add(s); //если уникальный, то добавляем
                 }
@@ -68,6 +68,11 @@ namespace GraphHelper
         #endregion
 
 
+
+
+
+        #region Valences
+
         /// <summary>
         /// Валентности каждой вершины: вершина - валентность
         /// </summary>
@@ -75,51 +80,15 @@ namespace GraphHelper
         {
             List<Tuple<string, int>> res = new List<Tuple<string, int>>();
 
-            int val;
-            int i = 0;
-            GroupHelper.SortByVertex2(ref arr); //все вершины на втором месте в порядке возрастания
-            while (i < arr.Count - 1)
+            List<string> vert = Vertexes(arr); //получили список вершин
+            for (int i = 0; i < vert.Count; i++)
             {
-                val = 1;
-                while(i < arr.Count - 1 && arr[i].Item2 == arr[i + 1].Item2)
-                {
-                    val++;
-                    i++;
-                }
-                //Запишем вершину и ее валентность
-                res.Add(new Tuple<string, int>(arr[i].Item1, val));
-                i++;
+                int val = AmountOfNeighbours(vert[i], vert, arr);
+                res.Add(new Tuple<string, int>(vert[i], val));
             }
-
-
-
-            GroupHelper.SortByVertex1(ref arr); //все вершины на первом месте в порядке возрастания
-            i = 0;
-            while (i < arr.Count - 1)
-            {
-                int addition = 1; //на сколько увеличить валентность или какая новая
-                while (i < arr.Count - 1 && arr[i].Item2 == arr[i + 1].Item2)
-                {
-                    addition++;
-                    i++;
-                }
-
-                int a = res.FindIndex(x => (x.Item1 == arr[i].Item1)); //ииндекс первого вхождения
-                if (a != -1)//если уже есть такой элемент
-                {
-                    res[a] = new Tuple<string, int>(arr[i].Item1, res[a].Item2 + addition);
-                }
-                else //если вершина еще не попадалась
-                {
-                    res.Add(new Tuple<string, int>(arr[i].Item1, addition));
-                }
-                i++;
-            }
-
             return res;
         }
 
-        #region Valences
         public static double AverageValences(List<Tuple<string, string, string, int>> arr)
         {
             List<Tuple<string, int>> val = Valences(arr);
@@ -130,8 +99,13 @@ namespace GraphHelper
             }
             return sum / val.Count;
         }
+        public static int MaxValence(List<Tuple<string, string, string, int>> arr)
+        {
+            List<Tuple<string, int>> vals = Valences(arr);
+            vals.Sort((x, y) => x.Item2.CompareTo(y.Item2));
+            return vals[vals.Count - 1].Item2;
+        }
 
-        
         #endregion
 
         #region Weight
@@ -269,13 +243,15 @@ namespace GraphHelper
         public static int AmountOfNeighbours
             (string v, List<string> vertexes, List<Tuple<string, string, string, int>> arr)
         {
-            int res = 0;
+            //int res = 0;
 
-            foreach (var ver in vertexes)
-            {
-                if (IsNeighbour(v, ver, arr)) res++;
-            }
-            return res;
+            //foreach (var ver in vertexes)
+            //{
+            //    if (IsNeighbour(v, ver, arr)) res++;
+            //}
+
+            return ListOfNeighbours(v, vertexes, arr).Count;
+           // return res;
         }
 
 
@@ -356,5 +332,22 @@ namespace GraphHelper
             return (0.1*triangles) / all_triangles;
         }
         #endregion
+
+        public static bool IsLoop
+            (string v, List<string> vert, List<Tuple<string, string, string, int>> arr)
+        {
+            return (arr.Find(x=> x.Item1 == v && x.Item2 == v) != null);
+        }
+
+        public static int AmountOfLoop(List<Tuple<string, string, string, int>> arr)
+        {
+            List<string> vert = Vertexes(arr);
+            int res = 0; 
+            foreach(string v in vert)
+            {
+                if (IsLoop(v, vert, arr)) res++;
+            }
+            return res;
+        }
     }
 }
