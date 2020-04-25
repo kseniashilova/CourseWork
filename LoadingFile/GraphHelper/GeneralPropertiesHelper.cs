@@ -28,6 +28,15 @@ namespace GraphHelper
             }
             return res;
         }
+
+        /// <summary>
+        /// Считает факториал
+        /// </summary>
+        public static int Fact(int n)
+        {
+            if (n == 1) return 1;
+            return Fact(n - 1) * n;
+        }
         
     }
 }

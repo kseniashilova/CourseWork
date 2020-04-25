@@ -102,5 +102,20 @@ namespace GraphHelper
             });
         }
 
+        /// <summary>
+        /// Сортируем список вершин по возрастанию валентности
+        /// </summary>
+        public static void SortByValences
+            (ref List<string> vertexes, List<Tuple<string, string, string, int>> arr)
+        {
+            List<string> vert2 = vertexes;
+            vertexes.Sort((x, y) =>
+            {
+                int a = PropertiesHelper.AmountOfNeighbours(x, vert2, arr);
+                int b = PropertiesHelper.AmountOfNeighbours(y, vert2, arr);
+                return a.CompareTo(b); 
+            });
+        }
+
     }
 }

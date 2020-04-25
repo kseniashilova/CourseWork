@@ -9,6 +9,8 @@ namespace GraphHelper
 
     public static class PropertiesHelper
     {
+
+        #region GetListOfVertexes
         /// <summary>
         /// получаем список вершин, из которых исходят ребра
         /// </summary>
@@ -33,7 +35,7 @@ namespace GraphHelper
         /// </summary>
         public static List<string> Vertexes2(List<Tuple<string, string, string, int>> arr)
         {
-            GroupHelper.SortByVertex2(ref arr); //первые вершины в порядке возрастания
+            GroupHelper.SortByVertex2(ref arr); //вторые вершины в порядке возрастания
 
             List<string> res = new List<string>();
 
@@ -56,14 +58,14 @@ namespace GraphHelper
             List<string> vert2 = PropertiesHelper.Vertexes2(arr);
             foreach (string s in vert1)
             {
-                if (!vert1.Contains(s))
+                if (!vert2.Contains(s)) //если vert2 не содержит очередную строку
                 {
                     vert2.Add(s); //если уникальный, то добавляем
-                    Console.WriteLine("Есть уникальный элемент");
                 }
             }
             return vert2;
         }
+        #endregion
 
 
         /// <summary>
@@ -117,6 +119,7 @@ namespace GraphHelper
             return res;
         }
 
+        #region Valences
         public static double AverageValences(List<Tuple<string, string, string, int>> arr)
         {
             List<Tuple<string, int>> val = Valences(arr);
@@ -127,5 +130,231 @@ namespace GraphHelper
             }
             return sum / val.Count;
         }
+
+        
+        #endregion
+
+        #region Weight
+        public static double AverageWeight(List<Tuple<string, string, string, int>> arr)
+        {
+            double sum = 0;
+            foreach(var item in arr)
+            {
+                sum += item.Item4;
+            }
+            return sum / arr.Count;
+        }
+        public static int MaxWeight(List<Tuple<string, string, string, int>> arr, 
+            out string v1, out string v2) 
+        {
+            int max = 0;
+            v1 = "";
+            v2 = "";
+            foreach (var item in arr)
+            {
+                if (item.Item4 > max)
+                {
+                    max = item.Item4;
+                    v1 = item.Item1;
+                    v2 = item.Item2;
+                }
+            }
+            return max;
+        }
+        public static int MinWeight(List<Tuple<string, string, string, int>> arr)
+        {
+            int min = arr[0].Item4;
+            foreach (var item in arr)
+            {
+                if (item.Item4 <min) min = item.Item4;
+            }
+            return min;
+        }
+        #endregion
+
+
+        #region Clustering
+        /// <summary>
+        /// Образуют ли заданные вершины треугольник
+        /// </summary>
+        public static bool IsTriangle(string v1, string v2, string v3, List<Tuple<string, string, string, int>> arr)
+        {
+            bool b1 = false, b2 = false, b3 = false;
+            if (arr.FindIndex(x => 
+            (x.Item1 == v1 && x.Item2 == v2)|| (x.Item2 == v1 && x.Item1 == v2)) != -1) //есть такое ребро
+                b1 = true;
+
+            if (arr.FindIndex(x => 
+            (x.Item1 == v1 && x.Item2 == v3) || (x.Item1 == v3 && x.Item2 == v1)) != -1) //есть такое ребро
+                b2 = true;
+
+            if (arr.FindIndex(x =>
+            (x.Item1 == v2 && x.Item2 == v3) || (x.Item1 == v3 && x.Item2 == v2)) != -1) //есть такое ребро
+                b3 = true;
+
+            return (b1 && b2 && b3);
+        }
+
+
+        public static bool IsTriangleWithWeight
+            (string v1, string v2, string v3, List<Tuple<string, string, string, int>> arr,
+            out int a, out int b, out int c)
+        {
+            a = 0; b = 0; c = 0;
+
+
+            bool b1 = false, b2 = false, b3 = false;
+
+            Tuple<string, string, string, int> AB =
+                arr.Find(x =>
+            (x.Item1 == v1 && x.Item2 == v2) || (x.Item2 == v1 && x.Item1 == v2));
+            if (AB != null) //есть такое ребро
+            {
+                c = AB.Item4;
+                b1 = true;
+            }
+
+            Tuple<string, string, string, int> BC =
+                 arr.Find(x =>
+             (x.Item1 == v3 && x.Item2 == v2) || (x.Item2 == v2 && x.Item1 == v3));
+            if (BC != null) //есть такое ребро
+            {
+                a = BC.Item4;
+                b2 = true;
+            }
+
+            Tuple<string, string, string, int> AC =
+                 arr.Find(x =>
+             (x.Item1 == v1 && x.Item2 == v3) || (x.Item2 == v3 && x.Item1 == v1));
+            if (AC != null) //есть такое ребро
+            {
+                b = AC.Item4;
+                b3 = true;
+            }
+            return (b1 && b2 && b3);
+        }
+
+        /// <summary>
+        /// Являются ли вершины соседними
+        /// </summary>
+        public static bool IsNeighbour(string v1, string v2, List<Tuple<string, string, string, int>> arr)
+        {
+            return (arr.FindIndex(x =>
+             (x.Item1 == v1 && x.Item2 == v2) || (x.Item1 == v2 && x.Item2 == v1)) != -1); //есть такое ребро
+                
+        }
+
+        /// <summary>
+        /// Список вершин, соседних с данной
+        /// </summary>
+        public static List<string> 
+            ListOfNeighbours(string v, List<string> vertexes, List<Tuple<string, string, string, int>> arr)
+        {
+            List<string> res = new List<string>();
+
+            foreach(var ver in vertexes)
+            {
+                if (IsNeighbour(v, ver, arr)) res.Add(ver);
+            }
+            return res;
+        }
+
+        /// <summary>
+        /// Считает количество соседних вершин
+        /// </summary>
+        /// <param name="v"></param>
+        /// <param name="vertexes"></param>
+        /// <param name="arr"></param>
+        /// <returns></returns>
+        public static int AmountOfNeighbours
+            (string v, List<string> vertexes, List<Tuple<string, string, string, int>> arr)
+        {
+            int res = 0;
+
+            foreach (var ver in vertexes)
+            {
+                if (IsNeighbour(v, ver, arr)) res++;
+            }
+            return res;
+        }
+
+
+
+
+
+        public static int AmountOfTriangleV3(List<Tuple<string, string, string, int>> arr)
+        {
+            List<string> vert = Vertexes(arr);
+            Console.WriteLine(vert.Count + " - вершин");
+            int amount = 0;
+            for(int i = 0; i < vert.Count; i++)
+                for(int j = i; j < vert.Count;j++)
+                    for(int k = j; k < vert.Count; k++)
+                    {
+                        if (IsTriangle(vert[i], vert[j], vert[k], arr)) amount++;
+                    }
+            return amount;
+        }
+
+        public static int AmountOfTriangleVE(List<Tuple<string, string, string, int>> arr)
+        {
+            int amount = 0;
+            //получаем список вершин
+            List<string> vert = Vertexes(arr);
+            for(int i = 0; i < arr.Count; i++)
+            {
+                string u = arr[i].Item1; //первая вершина
+                string v = arr[i].Item2; //вторая вершина
+                List<string> neighs = ListOfNeighbours(u, vert, arr); //получаем список соседей
+                foreach(var neighbour in neighs)
+                {
+                    if (IsNeighbour(v, neighbour, arr)) amount++;
+
+                }
+            }
+            return amount / 3;
+        }
+
+        public static int AmountOfTriangleESqrtE(List<Tuple<string, string, string, int>> arr)
+        {
+            int amount = 0;
+            //получаем список вершин
+            List<string> vert = Vertexes(arr);
+            List<Tuple<string, int>> valences = Valences(arr); //валентности
+
+            for (int i = 0; i < arr.Count; i++)
+            {
+                string u = arr[i].Item1; //первая вершина
+                string v = arr[i].Item2; //вторая вершина
+
+                //если первая вершина имеет валентность меньше
+                bool first = 
+                    valences.Find(x => x.Item1 == u).Item2 < valences.Find(x => x.Item1 == v).Item2;
+
+                if (!first)//меняем местами
+                {
+                    u = arr[i].Item2;
+                    v = arr[i].Item1;
+                }
+                List<string> neighs = ListOfNeighbours(u, vert, arr); //получаем список соседей
+                foreach (var neighbour in neighs)
+                {
+                    if (IsNeighbour(v, neighbour, arr)) amount++;
+
+                }
+            }
+            return amount / 3;
+        }
+
+
+        public static double CoeffClustering(List<Tuple<string, string, string, int>> arr)
+        {
+            int triangles = AmountOfTriangleVE(arr);
+            List<string> vert = Vertexes(arr);
+            int n = vert.Count;
+            int all_triangles = n * (n - 1) * (n - 2) / 6;
+            return (0.1*triangles) / all_triangles;
+        }
+        #endregion
     }
 }
