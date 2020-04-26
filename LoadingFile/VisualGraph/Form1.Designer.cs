@@ -33,25 +33,29 @@
             this.btnMe = new System.Windows.Forms.Button();
             this.btnLO = new System.Windows.Forms.Button();
             this.btnLOP = new System.Windows.Forms.Button();
-            this.labelVert = new System.Windows.Forms.Label();
-            this.label1 = new System.Windows.Forms.Label();
             this.comboBox1 = new System.Windows.Forms.ComboBox();
             this.labelOut = new System.Windows.Forms.Label();
+            this.label1 = new System.Windows.Forms.Label();
+            this.button1 = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.pb)).BeginInit();
             this.SuspendLayout();
             // 
             // btnDraw
             // 
-            this.btnDraw.Location = new System.Drawing.Point(713, 423);
+            this.btnDraw.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnDraw.Location = new System.Drawing.Point(589, 398);
             this.btnDraw.Name = "btnDraw";
-            this.btnDraw.Size = new System.Drawing.Size(75, 23);
+            this.btnDraw.Size = new System.Drawing.Size(183, 40);
             this.btnDraw.TabIndex = 0;
-            this.btnDraw.Text = "Calculate";
+            this.btnDraw.Text = "DRAW";
             this.btnDraw.UseVisualStyleBackColor = true;
             this.btnDraw.Click += new System.EventHandler(this.btnDraw_Click);
             // 
             // pb
             // 
+            this.pb.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.pb.Location = new System.Drawing.Point(1, 2);
             this.pb.Name = "pb";
             this.pb.Size = new System.Drawing.Size(582, 444);
@@ -60,7 +64,8 @@
             // 
             // btnMe
             // 
-            this.btnMe.Location = new System.Drawing.Point(589, 12);
+            this.btnMe.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnMe.Location = new System.Drawing.Point(589, 55);
             this.btnMe.Name = "btnMe";
             this.btnMe.Size = new System.Drawing.Size(57, 23);
             this.btnMe.TabIndex = 2;
@@ -70,7 +75,8 @@
             // 
             // btnLO
             // 
-            this.btnLO.Location = new System.Drawing.Point(715, 12);
+            this.btnLO.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnLO.Location = new System.Drawing.Point(714, 55);
             this.btnLO.Name = "btnLO";
             this.btnLO.Size = new System.Drawing.Size(57, 23);
             this.btnLO.TabIndex = 3;
@@ -80,7 +86,8 @@
             // 
             // btnLOP
             // 
-            this.btnLOP.Location = new System.Drawing.Point(652, 12);
+            this.btnLOP.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnLOP.Location = new System.Drawing.Point(652, 55);
             this.btnLOP.Name = "btnLOP";
             this.btnLOP.Size = new System.Drawing.Size(57, 23);
             this.btnLOP.TabIndex = 4;
@@ -88,26 +95,9 @@
             this.btnLOP.UseVisualStyleBackColor = true;
             this.btnLOP.Click += new System.EventHandler(this.btnLOP_Click);
             // 
-            // labelVert
-            // 
-            this.labelVert.AutoSize = true;
-            this.labelVert.Location = new System.Drawing.Point(589, 54);
-            this.labelVert.Name = "labelVert";
-            this.labelVert.Size = new System.Drawing.Size(107, 13);
-            this.labelVert.TabIndex = 5;
-            this.labelVert.Text = "Количество вершин";
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(592, 71);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(99, 13);
-            this.label1.TabIndex = 6;
-            this.label1.Text = "Количество ребер";
-            // 
             // comboBox1
             // 
+            this.comboBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.comboBox1.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.comboBox1.FormattingEnabled = true;
             this.comboBox1.Items.AddRange(new object[] {
@@ -123,30 +113,54 @@
             "Количество петель",
             "Количество двойных ребер",
             "Коэффициент кластеризации"});
-            this.comboBox1.Location = new System.Drawing.Point(595, 103);
+            this.comboBox1.Location = new System.Drawing.Point(589, 106);
             this.comboBox1.Name = "comboBox1";
-            this.comboBox1.Size = new System.Drawing.Size(177, 21);
+            this.comboBox1.Size = new System.Drawing.Size(183, 21);
             this.comboBox1.TabIndex = 7;
             this.comboBox1.SelectedIndexChanged += new System.EventHandler(this.comboBox1_SelectedIndexChanged);
             // 
             // labelOut
             // 
+            this.labelOut.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.labelOut.AutoSize = true;
-            this.labelOut.Location = new System.Drawing.Point(656, 239);
+            this.labelOut.Font = new System.Drawing.Font("Microsoft Sans Serif", 20.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.labelOut.Location = new System.Drawing.Point(646, 295);
             this.labelOut.Name = "labelOut";
-            this.labelOut.Size = new System.Drawing.Size(35, 13);
+            this.labelOut.Size = new System.Drawing.Size(0, 31);
             this.labelOut.TabIndex = 8;
-            this.labelOut.Text = "label2";
+            // 
+            // label1
+            // 
+            this.label1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(613, 90);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(134, 13);
+            this.label1.TabIndex = 9;
+            this.label1.Text = "Выбрать характеристику";
+            // 
+            // button1
+            // 
+            this.button1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.button1.BackColor = System.Drawing.Color.Red;
+            this.button1.Location = new System.Drawing.Point(714, 12);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(56, 20);
+            this.button1.TabIndex = 10;
+            this.button1.Text = "Exit";
+            this.button1.UseVisualStyleBackColor = false;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.button1);
+            this.Controls.Add(this.label1);
             this.Controls.Add(this.labelOut);
             this.Controls.Add(this.comboBox1);
-            this.Controls.Add(this.label1);
-            this.Controls.Add(this.labelVert);
             this.Controls.Add(this.btnLOP);
             this.Controls.Add(this.btnLO);
             this.Controls.Add(this.btnMe);
@@ -168,10 +182,10 @@
         private System.Windows.Forms.Button btnMe;
         private System.Windows.Forms.Button btnLO;
         private System.Windows.Forms.Button btnLOP;
-        private System.Windows.Forms.Label labelVert;
-        private System.Windows.Forms.Label label1;
         private System.Windows.Forms.ComboBox comboBox1;
         private System.Windows.Forms.Label labelOut;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Button button1;
     }
 }
 

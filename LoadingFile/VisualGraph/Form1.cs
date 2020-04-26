@@ -30,10 +30,15 @@ namespace VisualGraph
 
             regs = GraphHelper.GeneralPropertiesHelper.GetRegions(lst);
             regs = GraphHelper.GroupHelper.SortRegionsBySize(regs, lst);
+
+            btnDraw.Enabled = false;
+            comboBox1.Enabled = false;
+
         }
 
         private void btnDraw_Click(object sender, EventArgs e)
         {
+
             Image img = new Bitmap(pb.Width, pb.Height);
             pb.Image = img;
             Graphics gr = Graphics.FromImage(pb.Image);
@@ -49,32 +54,61 @@ namespace VisualGraph
                 GraphHelper.VisualizationHelper.DrawBigGraphRandom
                 (currentList, pb, pen);
 
+            
         }
 
         List<Tuple<string, string, string, int>> currentList;
         private void btnMe_Click(object sender, EventArgs e)
         {
+            btnDraw.Enabled = true;
+            comboBox1.Enabled = true;
+
+            btnMe.BackColor = Color.FromArgb(0, 220,0);//делаем зеленой
+            btnMe.Enabled = false; //делаем неактивной
+            btnLO.BackColor = Color.Transparent; //сбрасываем цвета других кнопок
+            btnLOP.BackColor = Color.Transparent;
+            btnLOP.Enabled = true;
+            btnLO.Enabled = true;
+            
             currentList = GraphHelper.GroupHelper.FindRegions(lst,
                 new string[] { "ME(L)", "ME(R)" });
         }
 
         private void btnLO_Click(object sender, EventArgs e)
         {
+            btnDraw.Enabled = true;
+            comboBox1.Enabled = true;
+
+            btnLO.BackColor = Color.FromArgb(0, 220,0);//делаем зеленой
+            btnLO.Enabled = false; //делаем неактивной
+            btnMe.BackColor = Color.Transparent; //сбрасываем цвета других кнопок
+            btnLOP.BackColor = Color.Transparent;
+            btnMe.Enabled = true;
+            btnLOP.Enabled = true;
+
             currentList = GraphHelper.GroupHelper.FindRegions(lst,
                 new string[] { "LO(L)", "LO(R)" });
         }
 
         private void btnLOP_Click(object sender, EventArgs e)
         {
+            btnDraw.Enabled = true;
+            comboBox1.Enabled = true;
+
+            btnLOP.BackColor = Color.FromArgb(0, 220,0);//делаем зеленой
+            btnLOP.Enabled = false; //делаем неактивной
+            btnLO.BackColor = Color.Transparent; //сбрасываем цвета других кнопок
+            btnMe.BackColor = Color.Transparent;
+            btnLO.Enabled = true;
+            btnMe.Enabled = true;
+
             currentList = GraphHelper.GroupHelper.FindRegions(lst,
                 new string[] { "LOP(L)", "LOP(R)" });
         }
 
         private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
-//Количество петель
-//Количество двойных ребер
-//Коэффициент кластеризации
+
             if ((string)comboBox1.SelectedItem == "Количество вершин")
                 labelOut.Text = 
                     GraphHelper.PropertiesHelper.Vertexes(currentList).Count.ToString();
@@ -122,6 +156,11 @@ namespace VisualGraph
             if ((string)comboBox1.SelectedItem == "Коэффициент кластеризации")
                 labelOut.Text =
                     GraphHelper.PropertiesHelper.CoeffClustering(currentList).ToString();
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            this.Close();
         }
     }
 }
