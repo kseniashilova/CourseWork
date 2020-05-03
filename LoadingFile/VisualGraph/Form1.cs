@@ -48,7 +48,7 @@ namespace VisualGraph
 
             //рисуем
             if(currentList.Count<1000)
-            GraphHelper.VisualizationHelper.DrawSmallGraphRandom
+            GraphHelper.VisualizationHelper.DrawBigGraphRandom
                 (currentList, pb, pen);
             else
                 GraphHelper.VisualizationHelper.DrawBigGraphRandom

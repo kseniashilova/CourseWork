@@ -69,8 +69,6 @@ namespace GraphHelper
 
 
 
-
-
         #region Valences
 
         /// <summary>
@@ -217,55 +215,6 @@ namespace GraphHelper
             return (b1 && b2 && b3);
         }
 
-        /// <summary>
-        /// Являются ли вершины соседними
-        /// </summary>
-        public static bool IsNeighbour(string v1, string v2, List<Tuple<string, string, string, int>> arr)
-        {
-            return (arr.FindIndex(x =>
-             (x.Item1 == v1 && x.Item2 == v2) || (x.Item1 == v2 && x.Item2 == v1)) != -1); //есть такое ребро
-
-        }
-
-        /// <summary>
-        /// Список вершин, соседних с данной
-        /// </summary>
-        public static List<string>
-            ListOfNeighbours(string v, List<string> vertexes, List<Tuple<string, string, string, int>> arr)
-        {
-            List<string> res = new List<string>();
-
-            foreach (var ver in vertexes)
-            {
-                if (IsNeighbour(v, ver, arr)) res.Add(ver);
-            }
-            return res;
-        }
-
-        /// <summary>
-        /// Считает количество соседних вершин
-        /// </summary>
-        /// <param name="v"></param>
-        /// <param name="vertexes"></param>
-        /// <param name="arr"></param>
-        /// <returns></returns>
-        public static int AmountOfNeighbours
-            (string v, List<string> vertexes, List<Tuple<string, string, string, int>> arr)
-        {
-            //int res = 0;
-
-            //foreach (var ver in vertexes)
-            //{
-            //    if (IsNeighbour(v, ver, arr)) res++;
-            //}
-
-            return ListOfNeighbours(v, vertexes, arr).Count;
-            // return res;
-        }
-
-
-
-
 
         public static int AmountOfTriangleV3(List<Tuple<string, string, string, int>> arr)
         {
@@ -339,6 +288,54 @@ namespace GraphHelper
             int n = vert.Count;
             int all_triangles = n * (n - 1) * (n - 2) / 6;
             return (0.1 * triangles) / all_triangles;
+        }
+        #endregion
+
+        #region Neighbour
+        /// <summary>
+        /// Являются ли вершины соседними
+        /// </summary>
+        public static bool IsNeighbour(string v1, string v2, List<Tuple<string, string, string, int>> arr)
+        {
+            return (arr.FindIndex(x =>
+             (x.Item1 == v1 && x.Item2 == v2) || (x.Item1 == v2 && x.Item2 == v1)) != -1); //есть такое ребро
+
+        }
+
+        /// <summary>
+        /// Список вершин, соседних с данной
+        /// </summary>
+        public static List<string>
+            ListOfNeighbours(string v, List<string> vertexes, List<Tuple<string, string, string, int>> arr)
+        {
+            List<string> res = new List<string>();
+
+            foreach (var ver in vertexes)
+            {
+                if (IsNeighbour(v, ver, arr)) res.Add(ver);
+            }
+            return res;
+        }
+
+        /// <summary>
+        /// Считает количество соседних вершин
+        /// </summary>
+        /// <param name="v"></param>
+        /// <param name="vertexes"></param>
+        /// <param name="arr"></param>
+        /// <returns></returns>
+        public static int AmountOfNeighbours
+            (string v, List<string> vertexes, List<Tuple<string, string, string, int>> arr)
+        {
+            //int res = 0;
+
+            //foreach (var ver in vertexes)
+            //{
+            //    if (IsNeighbour(v, ver, arr)) res++;
+            //}
+
+            return ListOfNeighbours(v, vertexes, arr).Count;
+            // return res;
         }
         #endregion
 

@@ -9,6 +9,8 @@ namespace GraphHelper
     public static class GroupHelper
     {
 
+
+        #region Regions
         public static List<Tuple<string, string, string, int>>
             FindRegions(List<Tuple<string, string, string, int>> arr, string region)
         {
@@ -72,7 +74,9 @@ namespace GraphHelper
             }
             return res;
         }
+        #endregion
 
+        #region Sorting
         public static void SortByRegions(ref List<Tuple<string, string, string, int>> arr)
         {
             arr.Sort((x, y) =>
@@ -144,9 +148,82 @@ namespace GraphHelper
             return res;
         }
 
+        #endregion
+
+        #region Clustering
+
+        public static List<List<string>>
+            ClusteringAlg(List<Tuple<string, string, string, int>> arr)
+        {
+            List<Tuple<string, string, string, int>> arr1 = new List<Tuple<string, string, string, int>>();
+            for (int i = 0; i < arr.Count; i++)//копируем в другой массив
+            {
+                arr1.Add(arr[i]);
+            }
+            double average = PropertiesHelper.AverageWeight(arr1);
+            List<string> vert = PropertiesHelper.Vertexes(arr1); //находим вершины
 
 
-        
+            //в начале кластеров столько, сколько вершин
+            List<List<string>> clusts = new List<List<string>>(); //лист кластеров
+
+            for(int i = 0; i < vert.Count; i++)
+            {
+                List<string> one = new List<string>();
+                one.Add(vert[i]);
+                clusts.Add(one);
+            }
+
+            int prev = 0, curr = 0;
+            do
+            {
+                prev = clusts.Count;
+                for (int i = 0; i < clusts.Count - 1; i++)
+                {
+                    for (int j = i; j < clusts.Count; j++)
+                    {
+                        double dist = DistanceClust(clusts[i], clusts[j], arr1);
+                        if (dist < average) //объединяем кластеры
+                        {
+                            clusts[i].AddRange(clusts[j]);
+                            clusts.RemoveAt(j);
+                        }
+                    }
+                }
+                curr = clusts.Count;
+            } while (prev != curr);
+
+            return clusts;
+
+        }
+
+
+        //дистанция между кластерами
+        public static double DistanceClust(List<string> c1, List<string> c2,
+            List<Tuple<string, string, string, int>> arr1)
+        {
+            int sum = 0; //сумма расстояний
+            int amount = 0;//количество ребер
+            for (int i = 0; i < c1.Count; i++)
+            {
+                for (int j = 0; j < c2.Count; j++)
+                {
+                    int index = arr1.FindIndex(x => (x.Item1 == c1[i] && x.Item2 == c2[j])
+                     || (x.Item2 == c1[i] && x.Item1 == c2[j]));
+                    //если есть ребро, то
+                    if (index != -1)
+                    {
+                        sum += arr1[index].Item4;
+                        amount++;
+                    }
+                }
+            }
+
+            return (sum * 0.1) / amount;
+        }
+
+
+        #endregion
 
     }
 }

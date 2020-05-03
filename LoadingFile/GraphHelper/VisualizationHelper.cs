@@ -70,52 +70,35 @@ namespace GraphHelper
             PictureBox pb, Pen pen)
         {
             Graphics gr = Graphics.FromImage(pb.Image);
-            List<string> vertexes = PropertiesHelper.Vertexes(arr); //список вершин
+            List<List<string>> groups = GroupHelper.ClusteringAlg(arr);
 
-
-            List<Tuple<string, Point, bool>> points = new List<Tuple<string, Point, bool>>();
-
-
+            List<Tuple<Point, int>> points = new List<Tuple<Point, int>>();
             //распределяем точки
-            for (int i = 0; i < vertexes.Count; i++)
+            for (int i = 0; i < groups.Count; i++)
             {
-                points.Add(new Tuple<string, Point, bool>
-                    (vertexes[i],
-                    new Point(rnd.Next(pb.Width), rnd.Next(pb.Height)),
-                    false)
+                points.Add(new Tuple<Point, int>
+                    (new Point(rnd.Next(pb.Width), rnd.Next(pb.Height)),
+                    groups[i].Count)
                     ); ;
             }
 
 
-            //рисуем все ребра
-            for (int i = 0; i < arr.Count; i++)
+            //рисуем ребра
+            for (int i = 0; i < points.Count - 1; i++)
             {
-                //находим первую точку
-                Tuple<string, Point, bool> t1 =
-                points.Find(x => x.Item1 == arr[i].Item1);
-                //находим вторую точку
-                Tuple<string, Point, bool> t2 =
-                points.Find(x => x.Item1 == arr[i].Item2);
+                gr.DrawLine(pen, points[i].Item1, points[i + 1].Item1);
+            }
 
-                Point p1 = t1.Item2;
-                Point p2 = t2.Item2;
-                gr.DrawLine(pen, p1, p2);
-                bool b1 = t1.Item3;
-                bool b2 = t2.Item3;
+            int max = 0;
+            for (int i = 0; i < points.Count; i++)
+            {
+                if (points[i].Item2 > max) max = points[i].Item2;
+            }
 
-                int i1 = points.IndexOf(t1);
-                int i2 = points.IndexOf(t2);
-
-                if (!b1)
-                {
-                    DrawVertex(p1, gr, pen.Color, 4);
-                    points[i1] = new Tuple<string, Point, bool>(t1.Item1, t1.Item2, true);
-                }
-                if (!b2)
-                {
-                    DrawVertex(p2, gr, pen.Color, 4);
-                    points[i2] = new Tuple<string, Point, bool>(t2.Item1, t2.Item2, true);
-                }
+            //рисуем точки
+            for (int i = 0; i < points.Count; i++)
+            {
+                DrawVertex(points[i].Item1, gr, pen.Color, 10 * points[i].Item2 / max);
             }
 
 
