@@ -153,7 +153,7 @@ namespace GraphHelper
         #region Clustering
 
         public static List<List<string>>
-            ClusteringAlg(List<Tuple<string, string, string, int>> arr)
+            ClusteringAlg(List<Tuple<string, string, string, int>> arr, int n)
         {
             List<Tuple<string, string, string, int>> arr1 = new List<Tuple<string, string, string, int>>();
             for (int i = 0; i < arr.Count; i++)//копируем в другой массив
@@ -167,60 +167,44 @@ namespace GraphHelper
             //в начале кластеров столько, сколько вершин
             List<List<string>> clusts = new List<List<string>>(); //лист кластеров
 
-            for(int i = 0; i < vert.Count; i++)
+            /*
+             * поместим n вершин в n кластеров (фиксированное количество)
+             * затем поочередно рассматривая каждую вершину будем вычислять
+             * новое среднее расстояние в кластере 
+             * среднее расстояние будем вычислять как средний вес образовавшихся ребер
+             * вершину будем помещать в тот кластер, у которого итоговый средний вес ближе всего к среднему по графу
+             */
+
+            //создаем n начальных кластеров
+            for (int i = 0; i < n; i++)
             {
-                List<string> one = new List<string>();
-                one.Add(vert[i]);
-                clusts.Add(one);
+                List<string> oneVert = new List<string>();
+                oneVert.Add(vert[i]);
+                clusts.Add(oneVert);
             }
 
-            int prev = 0, curr = 0;
-            do
+            //по всем оставшимся вершинам
+            for(int i = n; i < vert.Count; i++)
             {
-                prev = clusts.Count;
-                for (int i = 0; i < clusts.Count - 1; i++)
+                string v = vert[i];
+                List<double> newAverage = new List<double>();
+                for(int k = 0; k < n; k++)
                 {
-                    for (int j = i; j < clusts.Count; j++)
-                    {
-                        double dist = DistanceClust(clusts[i], clusts[j], arr1);
-                        if (dist < average) //объединяем кластеры
-                        {
-                            clusts[i].AddRange(clusts[j]);
-                            clusts.RemoveAt(j);
-                        }
-                    }
+                    clusts[k].Add(v); //добавляем
+                    //считаем новый средний вес ребер
+                    newAverage.Add(PropertiesHelper.AverageWeightVertexes(clusts[k], arr));
+                    clusts[k].RemoveAt(clusts[k].Count - 1); //удаляем последнюю вершину
                 }
-                curr = clusts.Count;
-            } while (prev != curr);
+
+                int index = newAverage.IndexOf(newAverage.Min(x => x - average));
+                clusts[index].Add(v);
+            }
 
             return clusts;
 
         }
 
 
-        //дистанция между кластерами
-        public static double DistanceClust(List<string> c1, List<string> c2,
-            List<Tuple<string, string, string, int>> arr1)
-        {
-            int sum = 0; //сумма расстояний
-            int amount = 0;//количество ребер
-            for (int i = 0; i < c1.Count; i++)
-            {
-                for (int j = 0; j < c2.Count; j++)
-                {
-                    int index = arr1.FindIndex(x => (x.Item1 == c1[i] && x.Item2 == c2[j])
-                     || (x.Item2 == c1[i] && x.Item1 == c2[j]));
-                    //если есть ребро, то
-                    if (index != -1)
-                    {
-                        sum += arr1[index].Item4;
-                        amount++;
-                    }
-                }
-            }
-
-            return (sum * 0.1) / amount;
-        }
 
 
         #endregion

@@ -70,7 +70,7 @@ namespace GraphHelper
             PictureBox pb, Pen pen)
         {
             Graphics gr = Graphics.FromImage(pb.Image);
-            List<List<string>> groups = GroupHelper.ClusteringAlg(arr);
+            List<List<string>> groups = GroupHelper.ClusteringAlg(arr, 3);
 
             List<Tuple<Point, int>> points = new List<Tuple<Point, int>>();
             //распределяем точки

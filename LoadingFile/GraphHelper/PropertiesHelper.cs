@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -150,6 +151,27 @@ namespace GraphHelper
                 if (item.Item4 < min) min = item.Item4;
             }
             return min;
+        }
+
+        public static double AverageWeightVertexes
+            (List<string> group, List<Tuple<string, string, string, int>> arr)
+        {
+            int sum = 0;
+            int count = 0;
+            foreach (var el in arr)
+            {
+                int ind1 = group.FindIndex(x => x == el.Item1);
+                int ind2 = group.FindIndex(x => x == el.Item2);
+
+                //если ребро существует в группе
+                if (ind1 != -1 && ind2 != -1)
+                {
+                    sum += el.Item4;
+                    count++; //увеличиваем счетчик ребер
+                }
+            }
+            if (count == 0) return 0;
+            else return (1.0 * sum / count);
         }
         #endregion
 
