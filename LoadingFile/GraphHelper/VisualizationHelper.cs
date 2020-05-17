@@ -63,15 +63,29 @@ namespace GraphHelper
         }
 
 
-
-
         public static void DrawBigGraphRandom
             (List<Tuple<string, string, string, int>> arr,
             PictureBox pb, Pen pen)
         {
-            Graphics gr = Graphics.FromImage(pb.Image);
-            List<List<string>> groups = GroupHelper.ClusteringAlg(arr, 3);
+            //КЛАСТЕРИЗАЦИЯ
+            List<List<string>> groups = GroupHelper.ClusteringAlgNew(arr, 7);
 
+            DrawGroups(groups, pb, pen);
+        }
+
+        public static void DrawBigGraphRandomAnimation
+            (List<Tuple<string, string, string, int>> arr,
+            PictureBox pb, Pen pen)
+        {
+            List<List<string>> groups = GroupHelper.ClusteringAlgAnimation(arr, 7, pb, pen);
+
+        }
+
+
+
+        public static void DrawGroups(List<List<string>> groups, PictureBox pb, Pen pen)
+        {
+            Graphics gr = Graphics.FromImage(pb.Image);
             List<Tuple<Point, int>> points = new List<Tuple<Point, int>>();
             //распределяем точки
             for (int i = 0; i < groups.Count; i++)
@@ -100,8 +114,6 @@ namespace GraphHelper
             {
                 DrawVertex(points[i].Item1, gr, pen.Color, 10 * points[i].Item2 / max);
             }
-
-
         }
 
         public static void DrawVertex(Point p, Graphics gr, Color col, int r)

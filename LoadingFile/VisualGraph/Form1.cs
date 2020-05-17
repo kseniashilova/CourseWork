@@ -32,6 +32,7 @@ namespace VisualGraph
             regs = GraphHelper.GroupHelper.SortRegionsBySize(regs, lst);
 
             btnDraw.Enabled = false;
+            btnDRAW2.Enabled = false;
             comboBox1.Enabled = false;
 
         }
@@ -45,29 +46,48 @@ namespace VisualGraph
             Pen pen = new Pen(Color.FromArgb(0, 100, 100));
 
 
-
             //рисуем
-            if(currentList.Count<1000)
+            GraphHelper.VisualizationHelper.DrawSmallGraphRandom
+                (currentList, pb, pen);
+                
+        }
+        private void btnDraw3_Click(object sender, EventArgs e)
+        {
+            Image img = new Bitmap(pb.Width, pb.Height);
+            pb.Image = img;
+            Graphics gr = Graphics.FromImage(pb.Image);
+            Pen pen = new Pen(Color.FromArgb(0, 100, 100));
+
+            GraphHelper.VisualizationHelper.DrawBigGraphRandomAnimation
+                (currentList, pb, pen);
+        }
+        private void btnDRAW2_Click(object sender, EventArgs e)
+        {
+            Image img = new Bitmap(pb.Width, pb.Height);
+            pb.Image = img;
+            Graphics gr = Graphics.FromImage(pb.Image);
+            Pen pen = new Pen(Color.FromArgb(0, 100, 100));
+
             GraphHelper.VisualizationHelper.DrawBigGraphRandom
                 (currentList, pb, pen);
-            else
-                GraphHelper.VisualizationHelper.DrawBigGraphRandom
-                (currentList, pb, pen);
-
-            
         }
 
         List<Tuple<string, string, string, int>> currentList;
         private void btnMe_Click(object sender, EventArgs e)
         {
             btnDraw.Enabled = true;
+            btnDRAW2.Enabled = true;
             comboBox1.Enabled = true;
 
             btnMe.BackColor = Color.FromArgb(0, 220,0);//делаем зеленой
             btnMe.Enabled = false; //делаем неактивной
             btnLO.BackColor = Color.Transparent; //сбрасываем цвета других кнопок
             btnLOP.BackColor = Color.Transparent;
+            btnAME.BackColor = Color.Transparent;
+            btnAOT.BackColor = Color.Transparent;
             btnLOP.Enabled = true;
+            btnAOT.Enabled = true;
+            btnAME.Enabled = true;
             btnLO.Enabled = true;
             
             currentList = GraphHelper.GroupHelper.FindRegions(lst,
@@ -77,13 +97,18 @@ namespace VisualGraph
         private void btnLO_Click(object sender, EventArgs e)
         {
             btnDraw.Enabled = true;
+            btnDRAW2.Enabled = true;
             comboBox1.Enabled = true;
 
             btnLO.BackColor = Color.FromArgb(0, 220,0);//делаем зеленой
             btnLO.Enabled = false; //делаем неактивной
             btnMe.BackColor = Color.Transparent; //сбрасываем цвета других кнопок
             btnLOP.BackColor = Color.Transparent;
+            btnAME.BackColor = Color.Transparent;
+            btnAOT.BackColor = Color.Transparent;
+            btnAOT.Enabled = true;
             btnMe.Enabled = true;
+            btnAME.Enabled = true;
             btnLOP.Enabled = true;
 
             currentList = GraphHelper.GroupHelper.FindRegions(lst,
@@ -93,17 +118,69 @@ namespace VisualGraph
         private void btnLOP_Click(object sender, EventArgs e)
         {
             btnDraw.Enabled = true;
+            btnDRAW2.Enabled = true;
             comboBox1.Enabled = true;
 
             btnLOP.BackColor = Color.FromArgb(0, 220,0);//делаем зеленой
             btnLOP.Enabled = false; //делаем неактивной
             btnLO.BackColor = Color.Transparent; //сбрасываем цвета других кнопок
             btnMe.BackColor = Color.Transparent;
+            btnAME.BackColor = Color.Transparent;
+            btnAOT.BackColor = Color.Transparent;
+            btnAOT.Enabled = true;
             btnLO.Enabled = true;
             btnMe.Enabled = true;
+            btnAME.Enabled = true;
 
             currentList = GraphHelper.GroupHelper.FindRegions(lst,
                 new string[] { "LOP(L)", "LOP(R)" });
+        }
+
+
+        private void btnAME_Click(object sender, EventArgs e)
+        {
+            btnDraw.Enabled = true;
+            btnDRAW2.Enabled = true;
+            comboBox1.Enabled = true;
+
+            btnAME.BackColor = Color.FromArgb(0, 220, 0);//делаем зеленой
+            btnAME.Enabled = false; //делаем неактивной
+
+            btnLOP.BackColor = Color.Transparent; //сбрасываем цвета других кнопок
+            btnMe.BackColor = Color.Transparent;
+            btnLO.BackColor = Color.Transparent; //сбрасываем цвета других кнопок
+            btnMe.BackColor = Color.Transparent;
+            btnLO.Enabled = true;
+            btnAOT.BackColor = Color.Transparent;
+            btnAOT.Enabled = true;
+            btnMe.Enabled = true;
+            btnLOP.Enabled = true;
+
+            currentList = GraphHelper.GroupHelper.FindRegions(lst,
+                new string[] { "LOP(L)", "LOP(R)" });
+        }
+
+        private void btnAOT_Click(object sender, EventArgs e)
+        {
+            btnDraw.Enabled = true;
+            btnDRAW2.Enabled = true;
+            comboBox1.Enabled = true;
+
+            btnAOT.BackColor = Color.FromArgb(0, 220, 0);//делаем зеленой
+            btnAOT.Enabled = false; //делаем неактивной
+
+            btnLOP.BackColor = Color.Transparent; //сбрасываем цвета других кнопок
+            btnMe.BackColor = Color.Transparent;
+            btnLO.BackColor = Color.Transparent; //сбрасываем цвета других кнопок
+            btnMe.BackColor = Color.Transparent; 
+            btnAME.BackColor = Color.Transparent;
+            btnAME.Enabled = true;
+            btnLO.Enabled = true;
+            btnMe.Enabled = true;
+            btnLOP.Enabled = true;
+
+            currentList = GraphHelper.GroupHelper.FindRegions(lst,
+                new string[] { "AOTU(L)", "AOTU(R)" });
         }
 
         private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
@@ -162,5 +239,7 @@ namespace VisualGraph
         {
             this.Close();
         }
+
+        
     }
 }

@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace GraphHelper
 {
@@ -184,11 +186,11 @@ namespace GraphHelper
             }
 
             //по всем оставшимся вершинам
-            for(int i = n; i < vert.Count; i++)
+            for (int i = n; i < vert.Count; i++)
             {
                 string v = vert[i];
                 List<double> newAverage = new List<double>();
-                for(int k = 0; k < n; k++)
+                for (int k = 0; k < n; k++)
                 {
                     clusts[k].Add(v); //добавляем
                     //считаем новый средний вес ребер
@@ -196,7 +198,9 @@ namespace GraphHelper
                     clusts[k].RemoveAt(clusts[k].Count - 1); //удаляем последнюю вершину
                 }
 
-                int index = newAverage.IndexOf(newAverage.Min(x => x - average));
+
+                newAverage = newAverage.Select(x => x - average).ToList();
+                int index = newAverage.IndexOf(newAverage.Min());
                 clusts[index].Add(v);
             }
 
@@ -206,7 +210,150 @@ namespace GraphHelper
 
 
 
+        public static List<List<string>>
+            ClusteringAlgNew(List<Tuple<string, string, string, int>> arr, int n)
+        {
+            List<Tuple<string, string, string, int>> arr1 = new List<Tuple<string, string, string, int>>();
+            for (int i = 0; i < arr.Count; i++)//копируем в другой массив
+            {
+                arr1.Add(arr[i]);
+            }
+            double average = PropertiesHelper.AverageWeight(arr1);
+            List<string> vert = PropertiesHelper.Vertexes(arr1); //находим вершины
 
+
+            //в начале кластеров столько, сколько вершин
+            List<List<string>> clusts = new List<List<string>>(); //лист кластеров
+
+            /*
+             * поместим все вершины в n кластеров (фиксированное количество)
+             * затем поочередно рассматривая каждую вершину будем вычислять
+             * новое среднее расстояние в кластере 
+             * среднее расстояние будем вычислять как средний вес образовавшихся ребер
+             * вершину будем помещать в тот кластер, у которого итоговый средний вес ближе всего к среднему по графу
+             */
+
+            //создаем n начальных кластеров
+            for (int i = 0; i < n; i++)
+            {
+                clusts.Add(new List<string>());
+            }
+            for (int i = 0; i < vert.Count; i++)
+            {
+                clusts[i % n].Add(vert[i]);
+            }
+
+
+            //по всем вершинам проходимся
+            for (int i = 0; i < vert.Count; i++)
+            {
+                int indexFirst = i % n; //индекс кластера, в котором вершина находится в начале
+                string v = vert[i];
+                List<double> newAverage = new List<double>();
+                for (int k = 0; k < n; k++)
+                {
+                    if (k != indexFirst)
+                        clusts[k].Add(v); //добавляем, если это другой кластер
+                    //считаем новый средний вес ребер
+                    newAverage.Add(PropertiesHelper.AverageWeightVertexes(clusts[k], arr));
+
+                    if (k != indexFirst)
+                        clusts[k].RemoveAt(clusts[k].Count - 1); //удаляем последнюю вершину
+                    else
+                    {
+                        clusts[k].Remove(v); //удаляем вершину из того кластера, где она была
+                    }
+                }
+
+
+                newAverage = newAverage.Select(x => x - average).ToList();
+                int indexSecond = newAverage.IndexOf(newAverage.Min());
+                clusts[indexSecond].Add(v);
+            }
+
+            return clusts;
+
+        }
+
+
+        
+
+        public static List<List<string>>
+            ClusteringAlgAnimation(List<Tuple<string, string, string, int>> arr, int n,
+            PictureBox pb, Pen pen)
+        {
+            
+            List<Tuple<string, string, string, int>> arr1 = new List<Tuple<string, string, string, int>>();
+            for (int i = 0; i < arr.Count; i++)//копируем в другой массив
+            {
+                arr1.Add(arr[i]);
+            }
+            double average = PropertiesHelper.AverageWeight(arr1);
+            List<string> vert = PropertiesHelper.Vertexes(arr1); //находим вершины
+
+
+            //в начале кластеров столько, сколько вершин
+            List<List<string>> clusts = new List<List<string>>(); //лист кластеров
+
+            /*
+             * поместим все вершины в n кластеров (фиксированное количество)
+             * затем поочередно рассматривая каждую вершину будем вычислять
+             * новое среднее расстояние в кластере 
+             * среднее расстояние будем вычислять как средний вес образовавшихся ребер
+             * вершину будем помещать в тот кластер, у которого итоговый средний вес ближе всего к среднему по графу
+             */
+
+            //создаем n начальных кластеров
+            for (int i = 0; i < n; i++)
+            {
+                clusts.Add(new List<string>());
+            }
+            for (int i = 0; i < vert.Count; i++)
+            {
+                clusts[i % n].Add(vert[i]);
+            }
+
+            int i = 0; 
+            //по всем вершинам проходимся
+            for (int i = 0; i < vert.Count; i++)
+            {
+                OneIteration(arr, i, n, clusts, vert, average);
+            }
+
+            return clusts;
+
+        }
+
+        public static void OneIteration(List<Tuple<string, string, string, int>> arr, 
+            int i, int n, List<List<string>> clusts, 
+            List<string> vert, double average)
+        {
+            int indexFirst = i % n; //индекс кластера, в котором вершина находится в начале
+            string v = vert[i];
+            List<double> newAverage = new List<double>();
+            for (int k = 0; k < n; k++)
+            {
+                if (k != indexFirst)
+                    clusts[k].Add(v); //добавляем, если это другой кластер
+                                      //считаем новый средний вес ребер
+                newAverage.Add(PropertiesHelper.AverageWeightVertexes(clusts[k], arr));
+
+                if (k != indexFirst)
+                    clusts[k].RemoveAt(clusts[k].Count - 1); //удаляем последнюю вершину
+                else
+                {
+                    clusts[k].Remove(v); //удаляем вершину из того кластера, где она была
+                }
+            }
+
+
+            newAverage = newAverage.Select(x => x - average).ToList();
+            int indexSecond = newAverage.IndexOf(newAverage.Min());
+            clusts[indexSecond].Add(v);
+
+            i++;
+
+        }
         #endregion
 
     }
