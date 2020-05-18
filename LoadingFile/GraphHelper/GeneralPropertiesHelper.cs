@@ -8,6 +8,9 @@ namespace GraphHelper
 {
     public static class GeneralPropertiesHelper
     {
+        /// <summary>
+        /// Получает из строк объекты типа Tuple
+        /// </summary>
         public static List<Tuple<string, string, string, int>> GetTuples(string[] arr)
         {
             List<Tuple<string, string, string, int>> res = new List<Tuple<string, string, string, int>>();
@@ -29,34 +32,6 @@ namespace GraphHelper
             return res;
         }
 
-        public static List<string> GetRegions(List<Tuple<string, string, string, int>> arr)
-        {
-            List<string> res = new List<string>();
-            for (int i = 0; i < arr.Count; i++)
-            {
-                string reg = arr[i].Item3.Split('(')[0]; //регион
-                bool isreg = false;
-                foreach (var t in res)
-                {
-                    if (t == reg) isreg = true;
-                }
-                //если false, то региона не нашлось, добавим регион
-                if (!isreg) res.Add(reg);
-            }
-            return res;
-        }
-
-        public static List<Tuple<string, int>> GetRegions1(List<string> regs, List<Tuple<string, string, string, int>> arr)
-        {
-            List<Tuple<string, int>> res = new List<Tuple<string, int>>();
-            foreach(string s in regs)
-            {
-                List<Tuple<string, string, string, int>> list = 
-                    GroupHelper.FindRegions(arr, s);
-                if (list.Count != 0) res.Add(new Tuple<string, int>(s, list.Count)); 
-            }
-            return res;
-        }
 
     }
 }
