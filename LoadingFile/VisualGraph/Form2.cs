@@ -32,7 +32,7 @@ namespace VisualGraph
         List<List<string>> clusts;//считаем в методе
         List<string> vert; //считаем в методе
         double average;//считаем в методе
-        int n = 7; //количество кластеров
+        internal int n; //количество кластеров
         List<double> prevAverage; //считаем в методе
         List<int> prevAmount;//считаем в методе
 

@@ -65,10 +65,10 @@ namespace GraphHelper
 
         public static void DrawBigGraphRandom
             (List<Tuple<string, string, string, int>> arr,
-            PictureBox pb, Pen pen)
+            PictureBox pb, Pen pen, int n)
         {
             //КЛАСТЕРИЗАЦИЯ
-            List<List<string>> groups = GroupHelper.ClusteringAlgNew(arr, 7);
+            List<List<string>> groups = GroupHelper.ClusteringAlgNew(arr, n);
 
             DrawGroups(groups, pb, pen);
         }
