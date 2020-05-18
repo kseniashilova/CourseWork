@@ -226,7 +226,7 @@ namespace VisualGraph
 
             if ((string)comboBox1.SelectedItem == "Средняя валентность")
                 labelOut.Text =
-                    GraphHelper.PropertiesHelper.AverageValences(currentList).ToString();
+                    $"{GraphHelper.PropertiesHelper.AverageValences(currentList):f3}";
 
             if ((string)comboBox1.SelectedItem == "Максимальная валентность")
                 labelOut.Text =
@@ -242,7 +242,7 @@ namespace VisualGraph
 
             if ((string)comboBox1.SelectedItem == "Средний вес рёбер")
                 labelOut.Text =
-                    GraphHelper.PropertiesHelper.AverageWeight(currentList).ToString();
+                    $"{GraphHelper.PropertiesHelper.AverageWeight(currentList):f3}";
 
             if ((string)comboBox1.SelectedItem == "Максимальный вес рёбер")
                 labelOut.Text =
@@ -262,7 +262,7 @@ namespace VisualGraph
 
             if ((string)comboBox1.SelectedItem == "Коэффициент кластеризации")
                 labelOut.Text =
-                    GraphHelper.PropertiesHelper.CoeffClustering(currentList).ToString();
+                    $"{GraphHelper.PropertiesHelper.CoeffClustering(currentList):f3}";
         }
 
         #endregion
