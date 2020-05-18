@@ -11,6 +11,10 @@ namespace GraphHelper
     public static class VisualizationHelper
     {
         static Random rnd = new Random();
+
+        /// <summary>
+        /// Рисует граф по вершинам
+        /// </summary>
         public static void DrawGraphRandom
             (List<Tuple<string, string, string, int>> arr,
             PictureBox pb, Pen pen)
@@ -63,7 +67,13 @@ namespace GraphHelper
 
         }
 
-
+        /// <summary>
+        /// Рисует граф с кластеризацией
+        /// </summary>
+        /// <param name="arr"></param>
+        /// <param name="pb"></param>
+        /// <param name="pen"></param>
+        /// <param name="n"></param>
         public static void DrawGraphRandomClust
             (List<Tuple<string, string, string, int>> arr,
             PictureBox pb, Pen pen, int n)
@@ -75,6 +85,9 @@ namespace GraphHelper
         }
 
 
+        /// <summary>
+        /// рисует кластер
+        /// </summary>
         public static void DrawGroups(List<List<string>> groups, PictureBox pb, Pen pen)
         {
             Graphics gr = Graphics.FromImage(pb.Image);
@@ -111,18 +124,19 @@ namespace GraphHelper
             }
         }
 
+        /// <summary>
+        /// Рисует одну вершину
+        /// </summary>
+        /// <param name="r">радиус</param>
         public static void DrawVertex(Point p, Graphics gr, Color col, int r)
         {
             gr.FillEllipse(new SolidBrush(col), p.X - r, p.Y - r, 2 * r, 2 * r);
         }
 
 
-
-        public static List<Color> GetColors(int n)
-        {
-            return new List<Color>();
-        }
-
+        /// <summary>
+        /// Выполняет одну итерацю кластеризации и рисует кластеры
+        /// </summary>
         public static void DrawNextIteration(int i,int n, List<List<string>> clusts,
             List<string> vert, ref List<int>prevAmount, 
             ref List<double> prevAverage, List<Tuple<string, string, string, int>> arr, 
