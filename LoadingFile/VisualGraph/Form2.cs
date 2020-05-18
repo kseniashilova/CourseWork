@@ -113,7 +113,6 @@ namespace VisualGraph
 
             if (pb.Image != null) //если в pictureBox есть изображение
             {
-                
                 Image image = pb.Image;
                 //создание диалогового окна "Сохранить как..", для сохранения изображения
                 SaveFileDialog savedialog = new SaveFileDialog();

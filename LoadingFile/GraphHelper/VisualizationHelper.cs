@@ -16,6 +16,7 @@ namespace GraphHelper
             PictureBox pb, Pen pen)
         {
             Graphics gr = Graphics.FromImage(pb.Image);
+            gr.Clear(Color.White);
             List<string> vertexes = PropertiesHelper.Vertexes(arr); //список вершин
             List<Tuple<string, int>> vals = PropertiesHelper.Valences(arr);
 
@@ -77,6 +78,7 @@ namespace GraphHelper
         public static void DrawGroups(List<List<string>> groups, PictureBox pb, Pen pen)
         {
             Graphics gr = Graphics.FromImage(pb.Image);
+            gr.Clear(Color.White);
             List<Tuple<Point, int>> points = new List<Tuple<Point, int>>();
             //распределяем точки
             for (int i = 0; i < groups.Count; i++)

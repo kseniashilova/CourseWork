@@ -65,6 +65,7 @@ namespace VisualGraph
             Image img = new Bitmap(form2.pb.Width, form2.pb.Height);
             form2.pb.Image = img;
             Graphics gr = Graphics.FromImage(form2.pb.Image);
+            gr.Clear(Color.White);
             Pen pen = new Pen(Color.FromArgb(0, 100, 100));
 
 
@@ -87,6 +88,7 @@ namespace VisualGraph
             Image img = new Bitmap(form2.pb.Width, form2.pb.Height);
             form2.pb.Image = img;
             Graphics gr = Graphics.FromImage(form2.pb.Image);
+            gr.Clear(Color.White);
             Pen pen = new Pen(Color.FromArgb(0, 100, 100));
 
             GraphHelper.VisualizationHelper.DrawGraphRandomClust
