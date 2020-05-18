@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.IO;
+using System.Xml;
 
 namespace VisualGraph
 {
@@ -20,6 +21,7 @@ namespace VisualGraph
         string[] strings;
         List<Tuple<string, string, string, int>> lst;
         List<string> regs;
+        Form2 form2;
         private void Form1_Load(object sender, EventArgs e)
         {
             //Полный путь.
@@ -33,50 +35,69 @@ namespace VisualGraph
 
             btnDraw.Enabled = false;
             btnDRAW2.Enabled = false;
+            btnDraw3.Enabled = false;
             comboBox1.Enabled = false;
 
+            this.BackColor = Color.White;
         }
 
-        private void btnDraw_Click(object sender, EventArgs e)
+        private Form2 CreateForm2(int numberOfOperation)
+        {
+            Form2 form2 = new Form2();
+            form2.form1 = this;
+            form2.numberOfOperation = numberOfOperation;
+            form2.currentList = this.currentList;
+            return form2;
+        }
+
+
+        internal void btnDraw_Click(object sender, EventArgs e)
         {
 
-            Image img = new Bitmap(pb.Width, pb.Height);
-            pb.Image = img;
-            Graphics gr = Graphics.FromImage(pb.Image);
+            form2 = CreateForm2(1);
+            form2.Show();
+
+            Image img = new Bitmap(form2.pb.Width, form2.pb.Height);
+            form2.pb.Image = img;
+            Graphics gr = Graphics.FromImage(form2.pb.Image);
             Pen pen = new Pen(Color.FromArgb(0, 100, 100));
 
 
             //рисуем
             GraphHelper.VisualizationHelper.DrawSmallGraphRandom
-                (currentList, pb, pen);
+                (currentList, form2.pb, pen);
                 
         }
-        private void btnDraw3_Click(object sender, EventArgs e)
-        {
-            Image img = new Bitmap(pb.Width, pb.Height);
-            pb.Image = img;
-            Graphics gr = Graphics.FromImage(pb.Image);
-            Pen pen = new Pen(Color.FromArgb(0, 100, 100));
 
-            GraphHelper.VisualizationHelper.DrawBigGraphRandomAnimation
-                (currentList, pb, pen);
-        }
-        private void btnDRAW2_Click(object sender, EventArgs e)
+        internal void btnDraw3_Click(object sender, EventArgs e)
         {
-            Image img = new Bitmap(pb.Width, pb.Height);
-            pb.Image = img;
-            Graphics gr = Graphics.FromImage(pb.Image);
+            form2 = CreateForm2(3);
+            
+            form2.Show();
+
+        }
+        internal void btnDRAW2_Click(object sender, EventArgs e)
+        {
+            form2 = CreateForm2(2);
+            form2.Show();
+
+            Image img = new Bitmap(form2.pb.Width, form2.pb.Height);
+            form2.pb.Image = img;
+            Graphics gr = Graphics.FromImage(form2.pb.Image);
             Pen pen = new Pen(Color.FromArgb(0, 100, 100));
 
             GraphHelper.VisualizationHelper.DrawBigGraphRandom
-                (currentList, pb, pen);
+                (currentList, form2.pb, pen);
+           
         }
 
         List<Tuple<string, string, string, int>> currentList;
         private void btnMe_Click(object sender, EventArgs e)
         {
+            labelOut.Text = "";
             btnDraw.Enabled = true;
             btnDRAW2.Enabled = true;
+            btnDraw3.Enabled = true;
             comboBox1.Enabled = true;
 
             btnMe.BackColor = Color.FromArgb(0, 220,0);//делаем зеленой
@@ -96,8 +117,10 @@ namespace VisualGraph
 
         private void btnLO_Click(object sender, EventArgs e)
         {
+            labelOut.Text = "";
             btnDraw.Enabled = true;
             btnDRAW2.Enabled = true;
+            btnDraw3.Enabled = true;
             comboBox1.Enabled = true;
 
             btnLO.BackColor = Color.FromArgb(0, 220,0);//делаем зеленой
@@ -117,8 +140,10 @@ namespace VisualGraph
 
         private void btnLOP_Click(object sender, EventArgs e)
         {
+            labelOut.Text = "";
             btnDraw.Enabled = true;
             btnDRAW2.Enabled = true;
+            btnDraw3.Enabled = true;
             comboBox1.Enabled = true;
 
             btnLOP.BackColor = Color.FromArgb(0, 220,0);//делаем зеленой
@@ -139,8 +164,10 @@ namespace VisualGraph
 
         private void btnAME_Click(object sender, EventArgs e)
         {
+            labelOut.Text = "";
             btnDraw.Enabled = true;
             btnDRAW2.Enabled = true;
+            btnDraw3.Enabled = true;
             comboBox1.Enabled = true;
 
             btnAME.BackColor = Color.FromArgb(0, 220, 0);//делаем зеленой
@@ -157,13 +184,15 @@ namespace VisualGraph
             btnLOP.Enabled = true;
 
             currentList = GraphHelper.GroupHelper.FindRegions(lst,
-                new string[] { "LOP(L)", "LOP(R)" });
+                new string[] { "AME(L)", "AME(R)" });
         }
 
         private void btnAOT_Click(object sender, EventArgs e)
         {
+            labelOut.Text = "";
             btnDraw.Enabled = true;
             btnDRAW2.Enabled = true;
+            btnDraw3.Enabled = true;
             comboBox1.Enabled = true;
 
             btnAOT.BackColor = Color.FromArgb(0, 220, 0);//делаем зеленой
@@ -240,6 +269,5 @@ namespace VisualGraph
             this.Close();
         }
 
-        
     }
 }

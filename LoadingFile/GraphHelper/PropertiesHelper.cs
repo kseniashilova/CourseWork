@@ -154,7 +154,8 @@ namespace GraphHelper
         }
 
         public static double AverageWeightVertexes
-            (List<string> group, List<Tuple<string, string, string, int>> arr)
+            (out int amoutOfEdges, 
+            List<string> group, List<Tuple<string, string, string, int>> arr)
         {
             int sum = 0;
             int count = 0;
@@ -170,8 +171,35 @@ namespace GraphHelper
                     count++; //увеличиваем счетчик ребер
                 }
             }
+            amoutOfEdges = count; //количество ребер
             if (count == 0) return 0;
             else return (1.0 * sum / count);
+        }
+
+        public static double AverWeightLastVertex(int prevAmount,out int newAmount,
+            double prevAver,
+            List<string> group, List<Tuple<string, string, string, int>> arr)
+        {
+            int sum = 0;
+            int additionEdges = 0; //дополнительные реба от последней вершины
+            string v = group.Last();
+            for(int i = 0; i < group.Count; i++)
+            {
+                int index = arr.FindIndex(x =>
+                (x.Item1 == v && x.Item2 == group[i]) ||
+                (x.Item2 == v && x.Item1 == group[i]));
+
+                if(index != -1)
+                {
+                    additionEdges++; //добавляем к количеству ребер
+                    sum += arr[index].Item4; //добавляем к сумме
+                }
+            }
+
+            newAmount = prevAmount + additionEdges;
+
+            //высчитываем новое среднее
+            return ((prevAver * prevAmount + sum) / (newAmount));
         }
         #endregion
 
