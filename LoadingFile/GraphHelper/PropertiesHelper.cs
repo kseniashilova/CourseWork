@@ -68,8 +68,6 @@ namespace GraphHelper
         }
         #endregion
 
-
-
         #region Valences
 
         /// <summary>
@@ -203,7 +201,6 @@ namespace GraphHelper
         }
         #endregion
 
-
         #region Clustering
         /// <summary>
         /// Образуют ли заданные вершины треугольник
@@ -226,44 +223,6 @@ namespace GraphHelper
             return (b1 && b2 && b3);
         }
 
-
-        public static bool IsTriangleWithWeight
-            (string v1, string v2, string v3, List<Tuple<string, string, string, int>> arr,
-            out int a, out int b, out int c)
-        {
-            a = 0; b = 0; c = 0;
-
-
-            bool b1 = false, b2 = false, b3 = false;
-
-            Tuple<string, string, string, int> AB =
-                arr.Find(x =>
-            (x.Item1 == v1 && x.Item2 == v2) || (x.Item2 == v1 && x.Item1 == v2));
-            if (AB != null) //есть такое ребро
-            {
-                c = AB.Item4;
-                b1 = true;
-            }
-
-            Tuple<string, string, string, int> BC =
-                 arr.Find(x =>
-             (x.Item1 == v3 && x.Item2 == v2) || (x.Item2 == v2 && x.Item1 == v3));
-            if (BC != null) //есть такое ребро
-            {
-                a = BC.Item4;
-                b2 = true;
-            }
-
-            Tuple<string, string, string, int> AC =
-                 arr.Find(x =>
-             (x.Item1 == v1 && x.Item2 == v3) || (x.Item2 == v3 && x.Item1 == v1));
-            if (AC != null) //есть такое ребро
-            {
-                b = AC.Item4;
-                b3 = true;
-            }
-            return (b1 && b2 && b3);
-        }
 
 
         public static int AmountOfTriangleV3(List<Tuple<string, string, string, int>> arr)
@@ -389,7 +348,6 @@ namespace GraphHelper
         }
         #endregion
 
-
         #region Loops
         public static bool IsLoop
             (string v, List<string> vert, List<Tuple<string, string, string, int>> arr)
@@ -408,7 +366,6 @@ namespace GraphHelper
             return res;
         }
         #endregion
-
 
         #region DoubleEdges
         public static bool IsDoubleEdge

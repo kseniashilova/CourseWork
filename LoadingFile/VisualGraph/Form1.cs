@@ -18,20 +18,20 @@ namespace VisualGraph
         {
             InitializeComponent();
         }
-        string[] strings;
-        List<Tuple<string, string, string, int>> lst;
-        List<string> regs;
-        Form2 form2;
+        
+        List<Tuple<string, string, string, int>> lst; //полный список
+        Form2 form2; //форма для отрисовки
+        List<Tuple<string, string, string, int>> currentList; 
+        int n;//количество кластеров
+
         private void Form1_Load(object sender, EventArgs e)
         {
             //Полный путь.
             const string path =
                 "C:/Users/Пользователь/Desktop/CourseWork/table/traced-roi-connections.csv";
-            strings = File.ReadAllLines(path); //считываем по строкам
+            string[] strings = File.ReadAllLines(path); //считываем по строкам
             lst = GraphHelper.GeneralPropertiesHelper.GetTuples(strings);
 
-            regs = GraphHelper.GeneralPropertiesHelper.GetRegions(lst);
-            regs = GraphHelper.GroupHelper.SortRegionsBySize(regs, lst);
 
             btnDraw.Enabled = false;
             btnDRAW2.Enabled = false;
@@ -53,6 +53,7 @@ namespace VisualGraph
         }
 
 
+        #region Draw
         internal void btnDraw_Click(object sender, EventArgs e)
         {
 
@@ -66,7 +67,7 @@ namespace VisualGraph
 
 
             //рисуем
-            GraphHelper.VisualizationHelper.DrawSmallGraphRandom
+            GraphHelper.VisualizationHelper.DrawGraphRandom
                 (currentList, form2.pb, pen);
 
         }
@@ -86,12 +87,14 @@ namespace VisualGraph
             Graphics gr = Graphics.FromImage(form2.pb.Image);
             Pen pen = new Pen(Color.FromArgb(0, 100, 100));
 
-            GraphHelper.VisualizationHelper.DrawBigGraphRandom
+            GraphHelper.VisualizationHelper.DrawGraphRandomClust
                 (currentList, form2.pb, pen, n);
 
         }
+        #endregion
 
-        List<Tuple<string, string, string, int>> currentList;
+        
+        #region ClickButton
         private void btnMe_Click(object sender, EventArgs e)
         {
             labelOut.Text = "";
@@ -202,6 +205,10 @@ namespace VisualGraph
                 new string[] { "AOTU(L)", "AOTU(R)" });
         }
 
+        #endregion
+
+
+        #region Select
         private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
 
@@ -254,8 +261,9 @@ namespace VisualGraph
                     GraphHelper.PropertiesHelper.CoeffClustering(currentList).ToString();
         }
 
+        #endregion
         
-        int n;
+        
         private void tbAmountOfClusts_TextChanged(object sender, EventArgs e)
         {
             string s = tbAmountOfClusts.Text;
@@ -272,5 +280,6 @@ namespace VisualGraph
             }
 
         }
+
     }
 }

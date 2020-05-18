@@ -11,7 +11,7 @@ namespace GraphHelper
     public static class VisualizationHelper
     {
         static Random rnd = new Random();
-        public static void DrawSmallGraphRandom
+        public static void DrawGraphRandom
             (List<Tuple<string, string, string, int>> arr,
             PictureBox pb, Pen pen)
         {
@@ -63,7 +63,7 @@ namespace GraphHelper
         }
 
 
-        public static void DrawBigGraphRandom
+        public static void DrawGraphRandomClust
             (List<Tuple<string, string, string, int>> arr,
             PictureBox pb, Pen pen, int n)
         {
