@@ -1,4 +1,7 @@
-﻿namespace VisualGraph
+﻿using System.Collections.Generic;
+using System.Reflection.Emit;
+
+namespace VisualGraph
 {
     partial class Form2
     {
@@ -28,6 +31,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            
             this.pb = new System.Windows.Forms.PictureBox();
             ((System.ComponentModel.ISupportInitialize)(this.pb)).BeginInit();
             this.SuspendLayout();
@@ -60,7 +64,8 @@
         }
 
         #endregion
-
+        
         public System.Windows.Forms.PictureBox pb;
+
     }
 }

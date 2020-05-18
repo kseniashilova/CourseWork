@@ -44,6 +44,7 @@ namespace VisualGraph
         private Form2 CreateForm2(int numberOfOperation)
         {
             Form2 form2 = new Form2();
+
             form2.form1 = this;
             form2.numberOfOperation = numberOfOperation;
             form2.currentList = this.currentList;
@@ -258,7 +259,7 @@ namespace VisualGraph
         private void tbAmountOfClusts_TextChanged(object sender, EventArgs e)
         {
             string s = tbAmountOfClusts.Text;
-            if (!int.TryParse(s, out n) ||
+            if (!int.TryParse(s, out n) || n<=0 ||
                 n > GraphHelper.PropertiesHelper.Vertexes(currentList).Count)
             {
                 btnDRAW2.Enabled = false;

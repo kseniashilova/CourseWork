@@ -19,6 +19,7 @@ namespace VisualGraph
             this.Size = SystemInformation.PrimaryMonitorSize;
             pb.BackColor = Color.White;
             this.BackColor = Color.White;
+            
         }
 
 

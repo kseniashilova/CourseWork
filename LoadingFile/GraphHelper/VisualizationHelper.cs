@@ -70,7 +70,7 @@ namespace GraphHelper
             //КЛАСТЕРИЗАЦИЯ
             List<List<string>> groups = GroupHelper.ClusteringAlgNew(arr, n);
 
-            DrawGroups(groups, pb, pen);
+            DrawGroups( groups, pb, pen);
         }
 
 
@@ -104,7 +104,8 @@ namespace GraphHelper
             for (int i = 0; i < points.Count; i++)
             {
                 DrawVertex(points[i].Item1, gr, pen.Color, 10 * points[i].Item2 / max);
-                
+                gr.DrawString(points[i].Item2.ToString(), new Font("Courier New", 12),
+                    new SolidBrush(Color.Black), points[i].Item1);
             }
         }
 
