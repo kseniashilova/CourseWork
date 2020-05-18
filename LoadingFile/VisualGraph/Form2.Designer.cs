@@ -31,7 +31,6 @@ namespace VisualGraph
         /// </summary>
         private void InitializeComponent()
         {
-            
             this.pb = new System.Windows.Forms.PictureBox();
             ((System.ComponentModel.ISupportInitialize)(this.pb)).BeginInit();
             this.SuspendLayout();
@@ -41,9 +40,10 @@ namespace VisualGraph
             this.pb.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.pb.Location = new System.Drawing.Point(12, 44);
+            this.pb.BackColor = System.Drawing.Color.White;
+            this.pb.Location = new System.Drawing.Point(62, 44);
             this.pb.Name = "pb";
-            this.pb.Size = new System.Drawing.Size(776, 360);
+            this.pb.Size = new System.Drawing.Size(679, 341);
             this.pb.TabIndex = 0;
             this.pb.TabStop = false;
             this.pb.Click += new System.EventHandler(this.pb_Click);
@@ -53,6 +53,7 @@ namespace VisualGraph
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.BackColor = System.Drawing.Color.White;
             this.ClientSize = new System.Drawing.Size(800, 450);
             this.Controls.Add(this.pb);
             this.Name = "Form2";

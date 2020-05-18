@@ -39,6 +39,8 @@ namespace VisualGraph
             comboBox1.Enabled = false;
 
             this.BackColor = Color.White;
+
+
         }
 
         private Form2 CreateForm2(int numberOfOperation)

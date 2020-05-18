@@ -19,7 +19,6 @@ namespace VisualGraph
             this.Size = SystemInformation.PrimaryMonitorSize;
             pb.BackColor = Color.White;
             this.BackColor = Color.White;
-            
         }
 
 
@@ -37,7 +36,19 @@ namespace VisualGraph
         List<double> prevAverage; //считаем в методе
         List<int> prevAmount;//считаем в методе
 
-        
+        private void Form2_Load(object sender, EventArgs e)
+        {
+            if (numberOfOperation == 3)
+            {
+                MessageBox.Show("Для отрисовки следующей итерации" +
+                    " метода кластеризации кликните по экрану.");
+                FirstIteration();
+            }
+            //показываем инструкцию
+            MessageBox.Show("Для сохранения картинки " +
+                "кликните дважды по экрану.");
+        }
+
         private void FirstIteration()
         {
             Image img = new Bitmap(pb.Width, pb.Height);
@@ -102,6 +113,7 @@ namespace VisualGraph
 
             if (pb.Image != null) //если в pictureBox есть изображение
             {
+                
                 Image image = pb.Image;
                 //создание диалогового окна "Сохранить как..", для сохранения изображения
                 SaveFileDialog savedialog = new SaveFileDialog();
@@ -129,10 +141,6 @@ namespace VisualGraph
             }
         }
 
-        private void Form2_Load(object sender, EventArgs e)
-        {
-            if (numberOfOperation == 3)
-                FirstIteration();
-        }
+        
     }
 }
