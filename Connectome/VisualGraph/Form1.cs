@@ -256,10 +256,6 @@ namespace VisualGraph
                 labelOut.Text =
                     GraphHelper.PropertiesHelper.AmountOfLoops(currentList).ToString();
 
-            if ((string)comboBox1.SelectedItem == "Количество двойных ребер")
-                labelOut.Text =
-                    GraphHelper.PropertiesHelper.AmountOfDoubleEdges(currentList).ToString();
-
             if ((string)comboBox1.SelectedItem == "Коэффициент кластеризации")
                 labelOut.Text =
                     $"{GraphHelper.PropertiesHelper.CoeffClustering(currentList):f3}";

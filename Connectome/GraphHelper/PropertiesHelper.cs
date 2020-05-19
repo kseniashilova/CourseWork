@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
+using System.Diagnostics.Eventing.Reader;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -17,8 +18,7 @@ namespace GraphHelper
         /// </summary>
         public static List<string> Vertexes1(List<Tuple<string, string, string, int>> arr)
         {
-            GroupHelper.SortByVertex1(ref arr); //первые вершины в порядке возрастания
-
+           
             List<string> res =
                 new List<string>();
 
@@ -36,8 +36,7 @@ namespace GraphHelper
         /// </summary>
         public static List<string> Vertexes2(List<Tuple<string, string, string, int>> arr)
         {
-            GroupHelper.SortByVertex2(ref arr); //вторые вершины в порядке возрастания
-
+            
             List<string> res = new List<string>();
 
             res.Add(arr[0].Item2); //добавляем первый элемент
@@ -336,55 +335,27 @@ namespace GraphHelper
         public static int AmountOfNeighbours
             (string v, List<string> vertexes, List<Tuple<string, string, string, int>> arr)
         {
-            //int res = 0;
-
-            //foreach (var ver in vertexes)
-            //{
-            //    if (IsNeighbour(v, ver, arr)) res++;
-            //}
-
+            
             return ListOfNeighbours(v, vertexes, arr).Count;
-            // return res;
+            
         }
         #endregion
 
         #region Loops
-        public static bool IsLoop
-            (string v, List<string> vert, List<Tuple<string, string, string, int>> arr)
-        {
-            return (arr.Find(x => x.Item1 == v && x.Item2 == v) != null);
-        }
-
+        
         public static int AmountOfLoops(List<Tuple<string, string, string, int>> arr)
         {
-            List<string> vert = Vertexes(arr);
+            
             int res = 0;
-            foreach (string v in vert)
+            foreach (var el in arr)
             {
-                if (IsLoop(v, vert, arr)) res++;
+                if (el.Item1 == el.Item2) res++;
             }
             return res;
         }
         #endregion
 
-        #region DoubleEdges
-        public static bool IsDoubleEdge
-            (Tuple<string, string, string, int> t, List<Tuple<string, string, string, int>> arr)
-        {
-            return (arr.IndexOf(t) != arr.LastIndexOf(t));
-        }
-
-        public static int AmountOfDoubleEdges(List<Tuple<string, string, string, int>> arr)
-        {
-
-            int res = 0;
-            foreach (var t in arr)
-            {
-                if (IsDoubleEdge(t, arr)) res++;
-            }
-            return res;
-        }
-        #endregion
+        
     }
 }
 
