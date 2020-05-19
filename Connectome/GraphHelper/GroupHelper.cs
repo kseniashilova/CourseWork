@@ -137,22 +137,30 @@ namespace GraphHelper
                 for (int k = 0; k < n; k++)
                 {
                     if (k == indexFirst)
+                    {
                         clusts[k].Remove(v); //удаляем вершину из того кластера, где она была
+                        //характеристики не поменялись
+                        newAmount.Add(prevAmount[k]);
+                        newAverage.Add(prevAverage[k]);
+                    }
+                    else
+                    {
 
-                    clusts[k].Add(v); //добавляем в конец
-                    //теперь вершина, от которой нужно посчитать
-                    //количество новых ребер с остальными и их суммарный вес,
-                    //находится в конце
-                    //считаем новый средний вес ребер
-                    int newAmountEdg;
-                    newAverage.Add(PropertiesHelper.AverWeightLastVertex(prevAmount[k],
-                        out newAmountEdg,
-                        prevAverage[k],
-                        clusts[k], arr));
-                    //добавляем новое количество 
-                    newAmount.Add(newAmountEdg);
-                    //удаляем последнюю
-                    clusts[k].RemoveAt(clusts[k].Count - 1);
+                        clusts[k].Add(v); //добавляем в конец
+                                          //теперь вершина, от которой нужно посчитать
+                                          //количество новых ребер с остальными и их суммарный вес,
+                                          //находится в конце
+                                          //считаем новый средний вес ребер
+                        int newAmountEdg;
+                        newAverage.Add(PropertiesHelper.AverWeightLastVertex(prevAmount[k],
+                            out newAmountEdg,
+                            prevAverage[k],
+                            clusts[k], arr));
+                        //добавляем новое количество 
+                        newAmount.Add(newAmountEdg);
+                        //удаляем последнюю
+                        clusts[k].RemoveAt(clusts[k].Count - 1);
+                    }
                 }
 
 
@@ -160,16 +168,19 @@ namespace GraphHelper
                 int indexSecond = newAverage.IndexOf(newAverage.Min());
                 clusts[indexSecond].Add(v); //добавляем в конец нужного кластера    
                 //меняем старый список на новый
-                prevAverage = new List<double>();
-                foreach(double aver in newAverage)
+                if (indexFirst != indexSecond)
                 {
-                    prevAverage.Add(aver);
+                    //новый вес того кластера, в который добавили
+                    prevAverage[indexSecond] = newAverage[indexSecond];
+                    //новый вес того кластера, из которого убрали
+                    int prevAmountFirst;
+                    prevAverage[indexFirst] =
+                        PropertiesHelper.AverageWeightVertexes
+                        (out prevAmountFirst, clusts[indexFirst], arr);
+                    prevAmount[indexSecond] = newAmount[indexSecond];
+                    prevAmount[indexFirst] = prevAmountFirst;
                 }
-                prevAmount = new List<int>();
-                foreach (int amount in newAmount)
-                {
-                    prevAmount.Add(amount);
-                }
+                //если добавили в ту же вершину, из которой убрали, то ничего не поменялось
 
             }
 
