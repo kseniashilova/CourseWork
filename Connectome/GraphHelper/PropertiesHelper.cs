@@ -224,39 +224,7 @@ namespace GraphHelper
 
 
 
-        public static int AmountOfTriangleV3(List<Tuple<string, string, string, int>> arr)
-        {
-            List<string> vert = Vertexes(arr);
-            Console.WriteLine(vert.Count + " - вершин");
-            int amount = 0;
-            for (int i = 0; i < vert.Count; i++)
-                for (int j = i; j < vert.Count; j++)
-                    for (int k = j; k < vert.Count; k++)
-                    {
-                        if (IsTriangle(vert[i], vert[j], vert[k], arr)) amount++;
-                    }
-            return amount;
-        }
-
-        public static int AmountOfTriangleVE(List<Tuple<string, string, string, int>> arr)
-        {
-            int amount = 0;
-            //получаем список вершин
-            List<string> vert = Vertexes(arr);
-            for (int i = 0; i < arr.Count; i++)
-            {
-                string u = arr[i].Item1; //первая вершина
-                string v = arr[i].Item2; //вторая вершина
-                List<string> neighs = ListOfNeighbours(u, vert, arr); //получаем список соседей
-                foreach (var neighbour in neighs)
-                {
-                    if (IsNeighbour(v, neighbour, arr)) amount++;
-
-                }
-            }
-            return amount / 3;
-        }
-
+        
         public static int AmountOfTriangleESqrtE(List<Tuple<string, string, string, int>> arr)
         {
             int amount = 0;

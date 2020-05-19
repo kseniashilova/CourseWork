@@ -41,10 +41,6 @@ namespace GraphHelper
             }
 
 
-
-
-
-
             //рисуем все ребра
             for (int i = 0; i < arr.Count; i++)
             {

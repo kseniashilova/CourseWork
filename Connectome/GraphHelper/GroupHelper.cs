@@ -14,17 +14,7 @@ namespace GraphHelper
 
         #region Regions
 
-        /// <summary>
-        /// Находит в списке ребра, относящиеся к региону region
-        /// </summary>
-        public static List<Tuple<string, string, string, int>>
-            FindRegions(List<Tuple<string, string, string, int>> arr, string region)
-        {
-            List<Tuple<string, string, string, int>> res
-                = arr.FindAll(x => x.Item3.Split('(')[0] == region);
-            return res;
-        }
-
+        
         /// <summary>
         /// группирует по областям, которые указаны в массиве
         /// </summary>
@@ -45,40 +35,6 @@ namespace GraphHelper
         }
 
        
-        #endregion
-
-        #region Sorting
-
-        /// <summary>
-        /// Сортировка по возрастанию номеров вершин на первом месте
-        /// </summary>
-        public static void SortByVertex1(ref List<Tuple<string, string, string, int>> arr)
-        {
-            arr.Sort((x, y) =>
-            {
-                string s1 = x.Item1;
-                string s2 = y.Item1;
-                return s1.CompareTo(s2);
-            });
-        }
-
-        /// <summary>
-        /// Сортировка по возрастанию номеров вершин на втором месте
-        /// </summary>
-        /// <param name="arr"></param>
-        public static void SortByVertex2(ref List<Tuple<string, string, string, int>> arr)
-        {
-            arr.Sort((x, y) =>
-            {
-                string s1 = x.Item2;
-                string s2 = y.Item2;
-                return s1.CompareTo(s2);
-            });
-        }
-
-
-
-
         #endregion
 
         #region Clustering

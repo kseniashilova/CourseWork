@@ -114,15 +114,16 @@ namespace VisualGraph
             if (pb.Image != null) //если в pictureBox есть изображение
             {
                 Image image = pb.Image;
-                //создание диалогового окна "Сохранить как..", для сохранения изображения
                 SaveFileDialog savedialog = new SaveFileDialog();
-                savedialog.Title = "Сохранить картинку как...";
+                savedialog.Title = "Сохранить картинку";
                 //отображать ли предупреждение, если пользователь указывает имя уже существующего файла
                 savedialog.OverwritePrompt = true;
                 //отображать ли предупреждение, если пользователь указывает несуществующий путь
                 savedialog.CheckPathExists = true;
                 //список форматов файла, отображаемый в поле "Тип файла"
-                savedialog.Filter = "Image Files(*.BMP)|*.BMP|Image Files(*.JPG)|*.JPG|Image Files(*.GIF)|*.GIF|Image Files(*.PNG)|*.PNG|All files (*.*)|*.*";
+                savedialog.Filter = "Image Files(*.BMP)|*.BMP|Image " +
+                    "Files(*.JPG)|*.JPG|Image Files(*.GIF)|*.GIF|Image " +
+                    "Files(*.PNG)|*.PNG|All files (*.*)|*.*";
                 //отображается ли кнопка "Справка" в диалоговом окне
                 savedialog.ShowHelp = true;
                 if (savedialog.ShowDialog() == DialogResult.OK) //если в диалоговом окне нажата кнопка "ОК"
