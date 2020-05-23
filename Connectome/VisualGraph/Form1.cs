@@ -28,7 +28,7 @@ namespace VisualGraph
         {
             //Полный путь.
             const string path =
-                "C:/Users/Пользователь/Desktop/CourseWork/table/traced-roi-connections.csv";
+                "C:/Users/Пользователь/Desktop/CourseWork/materials/table/traced-roi-connections.csv";
             string[] strings = File.ReadAllLines(path); //считываем по строкам
             lst = GraphHelper.GeneralPropertiesHelper.GetTuples(strings);
 

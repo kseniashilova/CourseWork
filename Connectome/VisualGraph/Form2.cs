@@ -66,7 +66,7 @@ namespace VisualGraph
              * среднее расстояние будем вычислять как средний вес образовавшихся ребер
              * вершину будем помещать в тот кластер, у которого итоговый средний вес ближе всего к среднему по графу
              */
-            
+
             //создаем n начальных кластеров
             for (int i = 0; i < n; i++)
             {
@@ -88,13 +88,15 @@ namespace VisualGraph
                 prevAmount.Add(prev);
             }
             GraphHelper.VisualizationHelper.DrawGroups(clusts, pb, new Pen(Color.Chocolate));
+            iteration++;
         }
 
         //рисуем следующий шаг
-        
+
         private void pb_Click(object sender, EventArgs e)
         {
-            if (numberOfOperation == 3 && iteration < vert.Count)
+
+            if (numberOfOperation == 3 && iteration < vert.Count - 1)
             {
                 GraphHelper.VisualizationHelper.DrawNextIteration
                     (iteration, n, clusts, vert,
@@ -102,6 +104,7 @@ namespace VisualGraph
                     currentList, average, pb, new Pen(Color.Chocolate));
                 iteration++;
             }
+
         }
 
 
@@ -141,6 +144,6 @@ namespace VisualGraph
             }
         }
 
-        
+
     }
 }

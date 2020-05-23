@@ -27,18 +27,23 @@ namespace GraphHelper
 
             List<Tuple<string, Point, Color>> points = new List<Tuple<string, Point, Color>>();
 
+            int maxVal = PropertiesHelper.MaxValence(arr);
 
-            int norm = 255 / PropertiesHelper.MaxValence(arr);
+            double norm;
+            norm = 255.0 / maxVal; //может быть и меньше единицы
+
             //распределяем точки
             for (int i = 0; i < vertexes.Count; i++)
             {
                 points.Add(new Tuple<string, Point, Color>
                     (vertexes[i],
                     new Point(rnd.Next(pb.Width), rnd.Next(pb.Height)),
-                    Color.FromArgb(255 - vals[i].Item2 * norm, 255 - vals[i].Item2 * norm, 255 - vals[i].Item2 * norm)
+                    Color.FromArgb((255 - (int)(vals[i].Item2 * norm)),
+                    (255 - (int)(vals[i].Item2 * norm)), (255 - (int)(vals[i].Item2 * norm)))
                     )
                     ); ;
             }
+
 
 
             //рисуем все ребра
@@ -77,7 +82,7 @@ namespace GraphHelper
             //КЛАСТЕРИЗАЦИЯ
             List<List<string>> groups = GroupHelper.ClusteringAlgNew(arr, n);
 
-            DrawGroups( groups, pb, pen);
+            DrawGroups(groups, pb, pen);
         }
 
 
@@ -133,10 +138,10 @@ namespace GraphHelper
         /// <summary>
         /// Выполняет одну итерацю кластеризации и рисует кластеры
         /// </summary>
-        public static void DrawNextIteration(int i,int n, List<List<string>> clusts,
-            List<string> vert, ref List<int>prevAmount, 
-            ref List<double> prevAverage, List<Tuple<string, string, string, int>> arr, 
-            double average, 
+        public static void DrawNextIteration(int i, int n, List<List<string>> clusts,
+            List<string> vert, ref List<int> prevAmount,
+            ref List<double> prevAverage, List<Tuple<string, string, string, int>> arr,
+            double average,
             PictureBox pb, Pen pen)
         {
             int indexFirst = i % n; //индекс кластера, в котором вершина находится в начале
