@@ -1,10 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
-using System.Diagnostics.Eventing.Reader;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace GraphHelper
 {
@@ -250,7 +246,6 @@ namespace GraphHelper
                 foreach (var neighbour in neighs)
                 {
                     if (IsNeighbour(v, neighbour, arr)) amount++;
-
                 }
             }
             return amount / 3;
