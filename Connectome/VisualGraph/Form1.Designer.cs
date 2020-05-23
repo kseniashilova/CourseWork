@@ -227,7 +227,7 @@
             this.Controls.Add(this.btnMe);
             this.Controls.Add(this.btnDraw);
             this.Name = "Form1";
-            this.Text = "Form1";
+            this.Text = "Connectome";
             this.Load += new System.EventHandler(this.Form1_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
