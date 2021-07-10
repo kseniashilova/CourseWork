@@ -3,8 +3,8 @@
 #include <vector>
 #include <cstdlib>
 
-using namespace std;
 
+using namespace std;
 
 class ReadWriter
 {
@@ -142,7 +142,7 @@ void create_dim2(vector<vector<short>>& matrix, int size) {
 	amount_of_triangles();
 	cout << triangles << '\n';
 
-	for (int i = 0; i < size; i++) {
+	for (int i = 0; i < lines; i++) {
 		vector<short> v(triangles, 0);
 		matrix.push_back(v);
 	}
@@ -175,7 +175,7 @@ void create_dim3(vector<vector<short>>& matrix, int size) {
 	amount_of_tetrahedrons();
 	cout << tetrahedrons << '\n';
 
-	for (int i = 0; i < size; i++) {
+	for (int i = 0; i < triangles; i++) {
 		vector<short> v(tetrahedrons, 0);
 		matrix.push_back(v);
 	}
@@ -216,6 +216,46 @@ void create_dim3(vector<vector<short>>& matrix, int size) {
 }
 
 
+
+//всего есть 
+//вершин: size
+//отрезков: lines
+//треугольников: triangles
+//тетраэдров: tetrahedrons
+
+void combine_matrixes(vector<vector<short>>& matrix1, vector<vector<short>>& matrix2,
+	vector<vector<short>>& matrix3, vector<vector<short>>& matrix, int size) {
+	int n = size + lines + triangles + tetrahedrons; //размер общей матрицы
+
+	for (int i = 0; i < n; i++) {
+		vector<short> vec(n, 0);
+		matrix.push_back(vec);
+	}
+
+
+	for (int i = size; i < size + lines; i++) {//lines - столбцов
+		for (int j = 0; j < size; j++) { //size - строк
+			matrix[j][i] = matrix1[j][i - size];
+		}
+	}
+
+
+	for (int i = size + lines;
+		i < size + lines + triangles; i++) { //triangles столбцов
+		for (int j = size; j < size + lines; j++) {//lines строк
+			matrix[j][i] = matrix2[j - size][i - size - lines];
+		}
+	}
+
+
+	for (int i = size + lines + triangles;
+		i < size + lines + triangles + tetrahedrons; i++) { //tetrahedrons столбцов
+		for (int j = size + lines; j < size + lines + triangles; j++) { // triangles строк
+			matrix[j][i] = matrix3[j - size - lines][i - size - lines - triangles];
+		}
+	}
+
+}
 //low(num = номер столбца)
 //-1, если столбец состоит из нулей
 int low(vector<vector<short>>& matrix, int num) {
@@ -263,32 +303,48 @@ void reducing(vector<vector<short>>& matrix) {
 }
 
 
-void reading_intervals(vector<vector<short>>& matrix) {
+void change_lows(vector<int>& lows, int size) {
+	
+	for (int i = size+lines; i < size + lines + triangles; i++) {
+		lows[i]-=1;
+	}
+	for (int i = size + lines + triangles; i < size + lines + triangles + tetrahedrons; i++) {
+		lows[i] -= 2;
+	}
+}
+
+
+void reading_intervals(vector<vector<short>>& matrix, int size) {
 	int n = matrix[0].size();
 	vector<int> lows(n); //вектор всех нижних граней
 	for (int i = 0; i < n; i++)
 		lows[i] = low(matrix, i);
+	change_lows(lows, size);
 
 	for (int i = 0; i < n; i++) {
 		if (lows[i] == -1) { //undefined
 			//найти такое k, что low(k) == i. Тогда k - конец, i - старт
 			bool is_paired = false;
-			for (int k = 0; k < n; k++) {
-				if (lows[k] - 1 == i) {
+			for (int k = i; k < n; k++) {
+				if (lows[k] == i) {
 					intervals.push_back({ times[i], times[k] });
+					cout << times[i] << ' ' << times[k] << "   " << i << ' ' << k << '\n';
 					is_paired = true;
 					break;
 				}
 			}
 			if (!is_paired) {
 				intervals.push_back({ times[i], INT32_MAX });  // [i; +inf) - интервал
+				cout << times[i] << ' ' << INT32_MAX << "   " << i << '\n';
 			}
 		}
 		else {
 			//надо найти такое j, что j = low(i). Тогда j - старт, i - конец
-			for (int j = 0; j < n; j++) {
-				if (j == lows[i] - 1) {
+			///for (int j = 0; j < n; j++) {
+			for (int j = i; j < n; j++) {
+				if (j == lows[i]) {
 					intervals.push_back({ times[j], times[i] });
+					cout << times[j] << ' ' << times[i] << "   " << j << ' ' << i << '\n';
 					break;
 				}
 			}
@@ -296,29 +352,29 @@ void reading_intervals(vector<vector<short>>& matrix) {
 	}
 }
 
+
+
+
 void process() {
-	int size = 3;
+	int size = 3738;
 
 	cout << "Reading matrix \n";
 	rw.readMatrix(m_space, size);
 
-	int dim;
-	cout << "Enter dimension: \n";
-	cin >> dim;
+	vector<vector<short>> matrix1;
+	vector<vector<short>> matrix2;
+	vector<vector<short>> matrix3;
 	vector<vector<short>> matrix;
 
-	//надо составить матрицу с кол-вом строк, равным количеству вершин
-	//и кол-вом столбцов, равным кол-ву отрезков в графе
-	//если dim = 1
-	if (dim == 1) {
-		create_dim1(matrix, size);
+	for (int i = 0; i < size; i++) {
+		times.push_back(0);
 	}
-	else if (dim == 2) {
-		create_dim2(matrix, size);
-	}
-	else if (dim == 3) {
-		create_dim3(matrix, size);
-	}
+
+	create_dim1(matrix1, size);
+	create_dim2(matrix2, size);
+	create_dim3(matrix3, size);
+
+	combine_matrixes(matrix1, matrix2, matrix3, matrix, size);
 
 
 	cout << "matrix:\n\n\n";
@@ -339,11 +395,11 @@ void process() {
 		cout << '\n';
 	}
 
-	reading_intervals(matrix);
+	reading_intervals(matrix, size);
 	cout << "intervals:\n\n\n";
-	for (int i = 0; i < intervals.size(); i++) {
+	/*for (int i = 0; i < intervals.size(); i++) {
 		cout << intervals[i].first << ' ' << intervals[i].second << '\n';
-	}
+	}*/
 }
 
 
