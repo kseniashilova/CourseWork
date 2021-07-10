@@ -47,11 +47,6 @@ public:
 	}
 
 
-	void writeResultVert(const vector<int>& v)
-	{
-		for (int i = 0; i < v.size(); i++)
-			fout << v[i] << '\n';
-	}
 
 };
 
@@ -112,6 +107,7 @@ void amount_of_tetrahedrons() {
 
 //из точек в отрезки
 void create_dim1(vector<vector<short>>& matrix, int size) {
+	cout << "dim1 matrix\n";
 	amount_of_lines();
 	for (int i = 0; i < size; i++) {
 		vector<short> v(lines, 0);
@@ -139,6 +135,7 @@ void create_dim1(vector<vector<short>>& matrix, int size) {
 
 //из отрезков в треугольники
 void create_dim2(vector<vector<short>>& matrix, int size) {
+	cout << "dim2 matrix\n";
 	amount_of_triangles();
 	cout << triangles << '\n';
 
@@ -172,6 +169,7 @@ void create_dim2(vector<vector<short>>& matrix, int size) {
 
 //из треугольников в тетраэдры
 void create_dim3(vector<vector<short>>& matrix, int size) {
+	cout << "dim2 matrix\n";
 	amount_of_tetrahedrons();
 	cout << tetrahedrons << '\n';
 
@@ -248,14 +246,16 @@ void combine_matrixes(vector<vector<short>>& matrix1, vector<vector<short>>& mat
 	}
 
 
-	for (int i = size + lines + triangles;
+	/*for (int i = size + lines + triangles;
 		i < size + lines + triangles + tetrahedrons; i++) { //tetrahedrons столбцов
 		for (int j = size + lines; j < size + lines + triangles; j++) { // triangles строк
 			matrix[j][i] = matrix3[j - size - lines][i - size - lines - triangles];
 		}
-	}
+	}*/
 
 }
+
+
 //low(num = номер столбца)
 //-1, если столбец состоит из нулей
 int low(vector<vector<short>>& matrix, int num) {
@@ -378,22 +378,22 @@ void process() {
 
 
 	cout << "matrix:\n\n\n";
-	for (int i = 0; i < matrix.size(); i++) {
+	/*r (int i = 0; i < matrix.size(); i++) {
 		for (int j = 0; j < matrix[i].size(); j++) {
 			cout << matrix[i][j] << ' ';
 		}
 		cout << '\n';
-	}
+	}*/
 
 	reducing(matrix);
 
 	cout << "reduced matrix:\n\n\n";
-	for (int i = 0; i < matrix.size(); i++) {
+	/*r (int i = 0; i < matrix.size(); i++) {
 		for (int j = 0; j < matrix[i].size(); j++) {
 			cout << matrix[i][j] << ' ';
 		}
 		cout << '\n';
-	}
+	}*/
 
 	reading_intervals(matrix, size);
 	cout << "intervals:\n\n\n";
